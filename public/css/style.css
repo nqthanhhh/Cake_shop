@@ -1,0 +1,89 @@
+:where([class^="ri-"])::before {
+    content: "\f3c2";
+}
+body {
+    font-family: "Montserrat", sans-serif;
+    color: #333;
+}
+.hero-section {
+    background-image: url("https://readdy.ai/api/search-image?query=beautiful%20cake%20shop%20with%20pastel%20pink%20background%2C%20elegant%20cakes%20displayed%20on%20a%20counter%2C%20soft%20lighting%2C%20high-end%20bakery%20interior%2C%20professional%20photography%2C%20dreamy%20atmosphere%2C%20delicious%20looking%20cakes%2C%20premium%20quality%2C%20romantic%20setting&width=1600&height=800&seq=hero1&orientation=landscape");
+    background-size: cover;
+    background-position: center;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.modal {
+    transition: opacity 0.3s ease;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 10px;
+    background-color: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.custom-checkbox {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+.custom-checkbox:hover input ~ .checkmark {
+    border-color: #ccc;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
