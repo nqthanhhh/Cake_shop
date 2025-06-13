@@ -10,6 +10,11 @@ class HomeController extends Controller
 {
     public function index()
     {
-       return view('front.index');
+        $products = Product::where('is_active', true)
+                          ->where('is_featured', true)
+                          ->latest()
+                          ->get();
+
+        return view('front.index', compact('products'));
     }
 }

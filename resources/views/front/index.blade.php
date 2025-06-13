@@ -36,7 +36,7 @@
           >
             <div class="h-48 overflow-hidden">
               <img
-                src="https://readdy.ai/api/search-image?query=beautiful%20birthday%20cake%20with%20colorful%20decorations%2C%20candles%2C%20cream%20frosting%2C%20elegant%20design%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=600&height=400&seq=cat1&orientation=landscape"
+              src="{{ asset('img/catego1.jpg')}}"
                 alt="Bánh sinh nhật"
                 class="w-full h-full object-cover object-top"
               />
@@ -58,8 +58,8 @@
           >
             <div class="h-48 overflow-hidden">
               <img
-                src="https://readdy.ai/api/search-image?query=elegant%20wedding%20cake%20with%20multiple%20tiers%2C%20white%20frosting%2C%20delicate%20floral%20decorations%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product%2C%20luxury%20wedding%20dessert&width=600&height=400&seq=cat2&orientation=landscape"
-                alt="Bánh cưới"
+              src="{{ asset('img/catego2.jpg')}}"
+              alt="Bánh cưới"
                 class="w-full h-full object-cover object-top"
               />
             </div>
@@ -80,8 +80,9 @@
           >
             <div class="h-48 overflow-hidden">
               <img
-                src="https://readdy.ai/api/search-image?query=themed%20cake%20with%20creative%20design%2C%20character%20decorations%2C%20colorful%20frosting%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product%2C%20childrens%20party%20cake&width=600&height=400&seq=cat3&orientation=landscape"
-                alt="Bánh theo chủ đề"
+              src="{{ asset('img/catego3.jpg')}}"
+
+              alt="Bánh theo chủ đề"
                 class="w-full h-full object-cover object-top"
               />
             </div>
@@ -102,8 +103,9 @@
           >
             <div class="h-48 overflow-hidden">
               <img
-                src="https://readdy.ai/api/search-image?query=seasonal%20cake%20with%20holiday%20decorations%2C%20festive%20design%2C%20cream%20frosting%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product%2C%20Christmas%20or%20New%20Year%20cake&width=600&height=400&seq=cat4&orientation=landscape"
-                alt="Bánh theo dịp"
+              src="{{ asset('img/catego4.jpg')}}"
+
+              alt="Bánh theo dịp"
                 class="w-full h-full object-cover object-top"
               />
             </div>
@@ -129,218 +131,38 @@
           Khám phá những chiếc bánh kem được yêu thích nhất tại Sweet Cake, được
           làm từ những nguyên liệu tươi ngon nhất
         </p>
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-        >
-          <!-- Product 1 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=strawberry%20cream%20cake%20with%20fresh%20strawberries%20on%20top%2C%20smooth%20cream%20frosting%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod1&orientation=landscape"
-                alt="Bánh Dâu Tươi"
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    @foreach($products as $product)
+    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+        <div class="h-56 overflow-hidden">
+            <img
+                src="{{ asset($product->image) }}"
+                alt="{{ $product->name }}"
                 class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Dâu Tươi</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh kem tươi ngon với lớp dâu tây tươi phủ trên bề mặt
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">320.000đ</span>
-                <a
-                  href="/product-detail"
-                  class="bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap text-center"
-                  >Chi tiết</a
-                >
-              </div>
-            </div>
-          </div>
-          <!-- Product 2 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=chocolate%20cake%20with%20chocolate%20ganache%2C%20chocolate%20shavings%20on%20top%2C%20rich%20and%20moist%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod2&orientation=landscape"
-                alt="Bánh Socola"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Socola Đặc Biệt</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh socola đậm đà với lớp ganache mềm mịn
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">350.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 3 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=tiramisu%20cake%20with%20coffee%20flavor%2C%20dusted%20with%20cocoa%20powder%2C%20creamy%20layers%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod3&orientation=landscape"
-                alt="Bánh Tiramisu"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Tiramisu</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh tiramisu hương vị cà phê Ý truyền thống
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">280.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 4 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=blueberry%20cheesecake%20with%20fresh%20blueberries%20on%20top%2C%20smooth%20cream%20cheese%20texture%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod4&orientation=landscape"
-                alt="Bánh Phô Mai Việt Quất"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Phô Mai Việt Quất</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh phô mai mềm mịn với lớp việt quất tươi ngon
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">300.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 5 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=matcha%20green%20tea%20cake%20with%20matcha%20powder%20dusting%2C%20cream%20layers%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod5&orientation=landscape"
-                alt="Bánh Trà Xanh"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Trà Xanh</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh kem trà xanh matcha thơm ngon, thanh mát
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">290.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 6 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=red%20velvet%20cake%20with%20cream%20cheese%20frosting%2C%20red%20cake%20layers%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod6&orientation=landscape"
-                alt="Bánh Red Velvet"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Red Velvet</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh red velvet với lớp kem phô mai mềm mịn
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">330.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 7 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=fruit%20tart%20cake%20with%20mixed%20fresh%20fruits%20on%20top%2C%20custard%20filling%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod7&orientation=landscape"
-                alt="Bánh Tart Trái Cây"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Tart Trái Cây</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh tart với các loại trái cây tươi theo mùa
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">270.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
-          <!-- Product 8 -->
-          <div
-            class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-56 overflow-hidden">
-              <img
-                src="https://readdy.ai/api/search-image?query=mango%20mousse%20cake%20with%20fresh%20mango%20slices%2C%20light%20and%20airy%20texture%2C%20professional%20photography%20on%20soft%20white%20background%2C%20high-end%20bakery%20product&width=500&height=400&seq=prod8&orientation=landscape"
-                alt="Bánh Mousse Xoài"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Mousse Xoài</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh mousse xoài mềm mịn với lớp xoài tươi bên trên
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">310.000đ</span>
-                <button
-                  class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                >
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </div>
-          </div>
+            />
         </div>
+        <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">{{ $product->name }}</h3>
+            <p class="text-gray-600 mb-4">
+                {{ $product->description }}
+            </p>
+            <div class="flex justify-between items-center">
+                <span class="text-primary font-bold text-xl">{{ number_format($product->price) }}đ</span>
+                <button
+                    class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
+                    data-product-id="{{ $product->id }}"
+                    data-product-name="{{ $product->name }}"
+                    data-product-price="{{ $product->price }}"
+                    data-product-image="{{ $product->image }}"
+                >
+                    Thêm vào giỏ
+                </button>
+            </div>
+        </div>
+    </div>
+    @endforeach
+</div>
+
         <div class="text-center mt-12">
           <button
             class="bg-white border border-primary text-primary px-6 py-3 rounded-button text-lg font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
@@ -356,7 +178,7 @@
         <div class="flex flex-col md:flex-row items-center gap-12">
           <div class="md:w-1/2">
             <img
-              src="https://readdy.ai/api/search-image?query=professional%20bakery%20interior%20with%20pastry%20chefs%20working%2C%20elegant%20cake%20shop%2C%20people%20decorating%20cakes%2C%20warm%20and%20inviting%20atmosphere%2C%20high-end%20bakery%2C%20professional%20photography&width=600&height=500&seq=about&orientation=landscape"
+              src="{{ asset('img/store1.jpg')}}"
               alt="Về chúng tôi"
               class="w-full h-auto rounded-lg shadow-lg"
             />

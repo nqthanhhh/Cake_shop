@@ -7,6 +7,7 @@
     <title>@yield('title') | sweetcake</title>
 
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>

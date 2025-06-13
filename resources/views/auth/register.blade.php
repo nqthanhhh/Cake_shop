@@ -96,7 +96,7 @@
       :where([class^="ri-"])::before { content: "\f3c2"; }
       body {
       font-family: 'Montserrat', sans-serif;
-      background-image: url('https://readdy.ai/api/search-image?query=beautiful%20cake%20shop%20interior%20with%20soft%20pastel%20colors%2C%20elegant%20display%20of%20cakes%2C%20warm%20lighting%2C%20blurred%20background%20perfect%20for%20login%20page%2C%20professional%20photography&width=1920&height=1080&seq=login_bg&orientation=landscape');
+      background-image: image(./img/background.jpg);
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -260,28 +260,14 @@
               />
             </div>
           </div>
-          <div class="flex items-start">
-            <label class="custom-checkbox text-sm text-gray-600">
-              <input type="checkbox" name="terms" required />
-              <span class="checkmark"></span>
-              <span class="ml-2"
-                >Tôi đồng ý với
-                <a href="#" class="text-primary hover:text-opacity-80"
-                  >Điều khoản sử dụng</a
-                >
-                và
-                <a href="#" class="text-primary hover:text-opacity-80"
-                  >Chính sách bảo mật</a
-                ></span
-              >
-            </label>
-          </div>
+
           <button
             type="submit"
             class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap"
           >
             Đăng ký
           </button>
+
         </form>
                 <p class="mt-8 text-center text-sm text-gray-600">
           Đã có tài khoản?
@@ -291,11 +277,16 @@
             >Đăng nhập ngay</a
           >
         </p>
+        <div class="mt-8 text-center">
+                <p class="text-xs text-black/70">Bằng việc đăng ký, bạn đồng ý với <a href="#"
+                        class="text-primary">Điều khoản dịch vụ</a> và <a href="#" class="text-primary">Chính sách bảo mật</a>
+                    của chúng tôi</p>
+            </div>
         </div>
 
       </div>
     </div>
-    <script>
+    {{-- <script>
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const password = document.getElementById("password");
@@ -355,6 +346,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-</script>
+</script> --}}
+
+<script src="{{ asset('js/main.js') }}"></script>
   </body>
 </html>
