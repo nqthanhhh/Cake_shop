@@ -118,7 +118,8 @@
           <p class="text-gray-600">Chào mừng bạn quay trở lại</p>
         </div>
 
-        <form action="" method="POST" class="space-y-6">
+        <form action="{{ route('login') }}" method="POST" class="space-y-6">
+            @csrf
           <div>
             <label
               for="email"
@@ -183,37 +184,6 @@
             Đăng nhập
           </button>
         </form>
-
-        {{-- <div class="mt-6">
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-gray-300"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-white text-gray-500"
-                >Hoặc đăng nhập với</span
-              >
-            </div>
-          </div>
-
-          <div class="mt-6 grid grid-cols-2 gap-4">
-            <button
-              type="button"
-              class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-button text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
-            >
-              <i class="ri-facebook-fill text-[#1877F2] text-xl mr-2"></i>
-              Facebook
-            </button>
-            <button
-              type="button"
-              class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-button text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
-            >
-              <i class="ri-google-fill text-[#DB4437] text-xl mr-2"></i>
-              Google
-            </button>
-          </div>
-        </div> --}}
-
         <p class="mt-8 text-center text-sm text-gray-600">
           Chưa có tài khoản?
           <a
@@ -224,22 +194,6 @@
         </p>
       </div>
     </div>
-    <script id="loginScript">
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector("form");
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-
-          // Here you would typically send the data to your server
-          console.log("Login attempt:", { email, password });
-
-          // For demo purposes, simulate a successful login
-          window.location.href = "/";
-        });
-      });
-    </script>
     <script src="{{ asset('js/main.js') }}"></script>
   </body>
 </html>

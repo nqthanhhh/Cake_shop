@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -59,7 +58,7 @@
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center space-x-8">
           <a
-            href="#"
+            href="{{ route('home') }}"
             class="text-gray-800 font-medium hover:text-primary transition-colors"
             >Trang chủ</a
           >
@@ -80,60 +79,99 @@
           >
         </nav>
         <div class="flex items-center space-x-4">
-          <a
+    @auth
+        {{-- Nếu người dùng đã đăng nhập --}}
+        <div class="relative group">
+            <button class="hidden md:block text-gray-800 hover:text-primary transition-colors font-medium focus:outline-none py-2 px-3"> {{-- Thêm padding để dễ hover hơn --}}
+                {{ Auth::user()->name }}
+                <i class="ri-arrow-down-s-line ml-1"></i>
+            </button>
+            <div class="absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform scale-95 group-hover:scale-100">
+                {{-- Các item trong dropdown --}}
+                <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); this.closest('form').submit();"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                </form>
+            </div>
+        </div>
+    @else
+        {{-- Nếu người dùng CHƯA đăng nhập --}}
+        <a
             href="{{ route('login') }}"
             class="hidden md:block text-gray-800 hover:text-primary transition-colors font-medium"
-            >Đăng nhập</a
-          >
-          <a
+        >Đăng nhập</a
+        >
+        <a
             href="{{ route('register') }}"
             class="hidden md:block bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors font-medium whitespace-nowrap"
-            >Đăng ký</a
-          >
-          <div class="relative">
-            <a
-              href="/cart"
-              class="w-10 h-10 flex items-center justify-center text-gray-800 hover:text-primary transition-colors"
-            >
-              <i class="ri-shopping-cart-2-line text-xl"></i>
-              <span class="cart-badge">0</span>
-            </a>
-          </div>
-          <button
-            id="mobileMenuBtn"
-            class="md:hidden w-10 h-10 flex items-center justify-center"
-          >
-            <i class="ri-menu-line text-2xl"></i>
-          </button>
-        </div>
+        >Đăng ký</a
+        >
+    @endauth
+
+    <div class="relative">
+        <a
+            href="/cart"
+            class="w-10 h-10 flex items-center justify-center text-gray-800 hover:text-primary transition-colors"
+        >
+            <i class="ri-shopping-cart-2-line text-xl"></i>
+            <span class="cart-badge">0</span>
+        </a>
+    </div>
+    <button
+        id="mobileMenuBtn"
+        class="md:hidden w-10 h-10 flex items-center justify-center"
+    >
+        <i class="ri-menu-line text-2xl"></i>
+    </button>
+</div>
       </div>
       <!-- Mobile Navigation -->
       <div id="mobileMenu" class="md:hidden hidden bg-white border-t">
-        <div class="container mx-auto px-4 py-2 flex flex-col">
-          <a href="#" class="py-3 border-b border-gray-100 text-gray-800"
-            >Trang chủ</a
-          >
-          <a
+    <div class="container mx-auto px-4 py-2 flex flex-col">
+        <a href="{{ route('home') }}" class="py-3 border-b border-gray-100 text-gray-800"
+        >Trang chủ</a
+        >
+        <a
             href="#products"
             class="py-3 border-b border-gray-100 text-gray-800"
-            >Sản phẩm</a
-          >
-          <a href="#about" class="py-3 border-b border-gray-100 text-gray-800"
-            >Về chúng tôi</a
-          >
-          <a href="#contact" class="py-3 border-b border-gray-100 text-gray-800"
-            >Liên hệ</a
-          >
-          <div class="py-3 flex space-x-4">
-            <a href="{{ route('login') }}" class="text-gray-800 font-medium">Đăng nhập</a>
-            <a
-              href="{{ route('register') }}"
-              class="bg-primary text-white px-4 py-2 rounded-button font-medium whitespace-nowrap"
-              >Đăng ký</a
-            >
-          </div>
-        </div>
-      </div>
+        >Sản phẩm</a
+        >
+        <a href="#about" class="py-3 border-b border-gray-100 text-gray-800"
+        >Về chúng tôi</a
+        >
+        <a href="#contact" class="py-3 border-b border-gray-100 text-gray-800"
+        >Liên hệ</a
+        >
+
+        {{-- Phần thay đổi cho Mobile --}}
+        @auth
+            <div class="py-3 border-b border-gray-100">
+                <span class="text-gray-800 font-medium block">{{ Auth::user()->name }}</span>
+                <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a> {{-- Bạn có thể thêm route profile.edit --}}
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); this.closest('form').submit();"
+                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Đăng xuất</a>
+                </form>
+            </div>
+        @else
+            <div class="py-3 flex space-x-4">
+                <a href="{{ route('login') }}" class="text-gray-800 font-medium">Đăng nhập</a>
+                <a
+                    href="{{ route('register') }}"
+                    class="bg-primary text-white px-4 py-2 rounded-button font-medium whitespace-nowrap"
+                >Đăng ký</a
+                >
+            </div>
+        @endauth
+    </div>
+</div>
     </header>
     {{-- header end --}}
 @yield('content')
