@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CheckoutController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-//cart routes
+
 Route::middleware('auth')->group(function () {
+    //cart routes
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::put('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
@@ -20,6 +23,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
+    Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
 });
 
 

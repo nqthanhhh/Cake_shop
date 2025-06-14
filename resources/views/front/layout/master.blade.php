@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>
       tailwind.config = {
@@ -113,13 +114,13 @@
     @endauth
 
     <div class="relative">
-        <a
-            href="/cart"
-            class="w-10 h-10 flex items-center justify-center text-gray-800 hover:text-primary transition-colors"
-        >
-            <i class="ri-shopping-cart-2-line text-xl"></i>
-            <span class="cart-badge">0</span>
-        </a>
+        <!-- Cart Icon with Count -->
+          <a href="{{ route('cart.get') }}" class="relative text-gray-800 hover:text-primary transition-colors">
+            <i class="ri-shopping-cart-line text-2xl"></i>
+            <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {{ session('cart') ? count(session('cart')) : 0 }}
+            </span>
+          </a>
     </div>
     <button
         id="mobileMenuBtn"
