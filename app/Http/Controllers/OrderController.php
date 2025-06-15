@@ -7,28 +7,28 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use App\Models\Cart;
 
 class OrderController extends Controller
 {
     public function checkout()
-    {
-        $cart = Session::get('cart', []);
+{
+    $cart = Cart::where('user_id', auth()->id())->with('product')->get();
 
-        if (empty($cart)) {
-            return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
-        }
-
-        $total = 0;
-        foreach ($cart as $item) {
-            $total += $item['price'] * $item['quantity'];
-        }
-
-        $user = Auth::user();
-
-        return view('checkout.index', compact('cart', 'total', 'user'));
+    if ($cart->isEmpty()) {
+        return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
     }
+
+    $total = 0;
+    foreach ($cart as $item) {
+        $total += $item->product->price * $item->quantity;
+    }
+
+    $user = Auth::user();
+
+    return view('checkout.index', compact('cart', 'total', 'user'));
+}
 
     public function store(Request $request)
     {
@@ -41,9 +41,9 @@ class OrderController extends Controller
             'notes' => 'nullable|string|max:1000'
         ]);
 
-        $cart = Session::get('cart', []);
+            $cart = Cart::where('user_id', auth()->id())->with('product')->get();
 
-        if (empty($cart)) {
+        if ($cart->isEmpty()) {
             return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
         }
 
@@ -53,8 +53,7 @@ class OrderController extends Controller
             // Tính tổng tiền
             $totalAmount = 0;
             foreach ($cart as $item) {
-                $totalAmount += $item['price'] * $item['quantity'];
-            }
+                $totalAmount = $cart->sum(fn($item) => $item->product->price * $item->quantity);            }
 
             // Xác định payment status dựa trên method
             $paymentStatus = 'pending';
@@ -80,18 +79,17 @@ class OrderController extends Controller
             // Tạo chi tiết đơn hàng
             foreach ($cart as $item) {
                 OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_name' => $item['name'],
-                    'product_price' => $item['price'],
-                    'product_image' => $item['image'],
-                    'quantity' => $item['quantity'],
-                    'total_price' => $item['price'] * $item['quantity']
-                ]);
+    'order_id' => $order->id,
+    'product_name' => $item->product->name,
+    'product_price' => $item->product->price,
+    'product_image' => $item->product->image,
+    'quantity' => $item->quantity,
+    'total_price' => $item->product->price * $item->quantity
+]);
             }
 
             // Xóa giỏ hàng
-            Session::forget('cart');
-
+Cart::where('user_id', auth()->id())->delete();
             DB::commit();
 
             return redirect()->route('order.success', $order->id)

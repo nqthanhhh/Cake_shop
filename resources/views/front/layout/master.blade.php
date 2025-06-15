@@ -117,9 +117,9 @@
         <!-- Cart Icon with Count -->
           <a href="{{ route('cart.get') }}" class="relative text-gray-800 hover:text-primary transition-colors">
             <i class="ri-shopping-cart-line text-2xl"></i>
-            <span class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {{ session('cart') ? count(session('cart')) : 0 }}
-            </span>
+            <span id="cartCount" class="cart-count absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+
+    </span>
           </a>
     </div>
     <button
@@ -376,7 +376,7 @@
             <span id="cartTotal" class="font-bold">0đ</span>
           </div>
           <button
-            id="checkoutBtn"
+            {{-- id="checkoutBtn" --}}
             class="w-full bg-primary text-white py-3 rounded-button font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap"
           >
             Thanh toán

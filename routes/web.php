@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
     Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.get');
+    Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 

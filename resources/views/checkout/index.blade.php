@@ -124,18 +124,18 @@
             <h2 class="text-xl font-semibold mb-6">Chi tiết đơn hàng</h2>
 
             <div class="space-y-4 mb-6">
-                @foreach($cart as $item)
-                <div class="flex items-center justify-between py-3 border-b border-gray-200">
-                    <div class="flex items-center">
-                        <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-lg mr-4">
-                        <div>
-                            <h3 class="font-medium">{{ $item['name'] }}</h3>
-                            <p class="text-sm text-gray-600">{{ number_format($item['price']) }}đ x {{ $item['quantity'] }}</p>
-                        </div>
-                    </div>
-                    <p class="font-semibold">{{ number_format($item['price'] * $item['quantity']) }}đ</p>
-                </div>
-                @endforeach
+                @foreach ($cart as $item)
+    <div class="cart-item flex items-center justify-between py-4 border-b border-gray-200">
+        <div class="flex items-center">
+            <img src="{{ asset($item->product->image) }}" alt="{{ $item->product->name }}" class="w-20 h-20 object-cover rounded-lg">
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold">{{ $item->product->name }}</h3>
+                <p class="text-gray-500">Số lượng: {{ $item->quantity }}</p>
+            </div>
+        </div>
+        <p class="text-lg font-semibold">{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }} đ</p>
+    </div>
+@endforeach
             </div>
 
             <div class="border-t pt-4 space-y-2">

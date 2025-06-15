@@ -11,9 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// </script>
-// <!-- Removed modal script since modals are no longer needed -->
-// <script id="cartScript">
 document.addEventListener("DOMContentLoaded", function () {
     const cartBtn = document.getElementById("cartBtn");
     const cartSidebar = document.getElementById("cartSidebar");
@@ -24,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const cartTotal = document.getElementById("cartTotal");
     const cartBadge = document.querySelector(".cart-badge");
     const addToCartButtons = document.querySelectorAll(".add-to-cart");
+
     let cart = [];
     function updateCartUI() {
         if (cart.length === 0) {
@@ -48,28 +46,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 cartItemElement.className =
                     "cart-item flex items-center gap-4 py-4 border-b border-gray-200";
                 cartItemElement.innerHTML = `
-      <div class="w-20 h-20 bg-gray-100 rounded overflow-hidden">
-      <img src="${asset(item.image)}" alt="${
+                <div class="w-20 h-20 bg-gray-100 rounded overflow-hidden">
+                    <img src="${item.image}" alt="${
                     item.name
                 }" class="w-full h-full object-cover object-top">
-      </div>
-      <div class="flex-1">
-      <h4 class="font-medium">${item.name}</h4>
-      <div class="text-primary font-bold">${item.price.toLocaleString()}đ</div>
-      <div class="flex items-center mt-2">
-      <button class="decrease-quantity w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full" data-index="${index}">
-      <i class="ri-subtract-line"></i>
-      </button>
-      <span class="mx-2">${item.quantity}</span>
-      <button class="increase-quantity w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full" data-index="${index}">
-      <i class="ri-add-line"></i>
-      </button>
-      </div>
-      </div>
-      <button class="remove-item text-gray-400 hover:text-red-500" data-index="${index}">
-      <i class="ri-delete-bin-line"></i>
-      </button>
-      `;
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-medium">${item.name}</h4>
+                    <div class="text-primary font-bold">${item.price.toLocaleString()}đ</div>
+                    <div class="flex items-center mt-2">
+                        <button class="decrease-quantity w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full" data-index="${index}">
+                            <i class="ri-subtract-line"></i>
+                        </button>
+                        <span class="mx-2">${item.quantity}</span>
+                        <button class="increase-quantity w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full" data-index="${index}">
+                            <i class="ri-add-line"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="remove-item text-gray-400 hover:text-red-500" data-index="${index}">
+                    <i class="ri-delete-bin-line"></i>
+                </button>
+            `;
                 cartItems.appendChild(cartItemElement);
             });
             // Update total and badge
@@ -108,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     }
+
     function openCart() {
         cartSidebar.classList.remove("translate-x-full");
         document.body.style.overflow = "hidden";
@@ -120,6 +119,9 @@ document.addEventListener("DOMContentLoaded", function () {
     closeCartBtn.addEventListener("click", closeCart);
     continueShopping.addEventListener("click", closeCart);
     // Add to cart functionality
+
+    // Initialize cart UI
+    updateCartUI();
     addToCartButtons.forEach((button) => {
         button.addEventListener("click", function () {
             const productCard = this.closest(".product-card");
@@ -146,8 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
             openCart();
         });
     });
-    // Initialize cart UI
-    updateCartUI();
 
     const form = document.querySelector("form");
     const password = document.getElementById("password");
@@ -249,129 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         }
     });
-});
-// Xử lý thêm vào giỏ hàng
-document.querySelectorAll(".add-to-cart").forEach((button) => {
-    button.addEventListener("click", async function () {
-        try {
-            // Kiểm tra đăng nhập trước khi gửi request
-            const isLoggedIn =
-                document.body.classList.contains("user-logged-in");
-            if (!isLoggedIn) {
-                window.location.href = "/login";
-                return;
-            }
-
-            const response = await fetch("/cart/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": document.querySelector(
-                        'meta[name="csrf-token"]'
-                    ).content,
-                },
-                body: JSON.stringify({
-                    product_id: this.dataset.productId,
-                }),
-            });
-
-            const data = await response.json();
-            if (data.status === "success") {
-                document.querySelector(".cart-badge").textContent =
-                    data.cartCount;
-                hienThiThongBao("Thêm vào giỏ hàng thành công", true);
-            } else {
-                hienThiThongBao(data.message || "Có lỗi xảy ra", false);
-            }
-        } catch (error) {
-            console.error("Lỗi:", error);
-            hienThiThongBao("Có lỗi xảy ra khi thêm vào giỏ hàng", false);
-        }
-    });
-});
-
-// Hàm hiển thị thông báo
-function hienThiThongBao(message, thanhCong = false) {
-    // Xóa thông báo cũ nếu có
-    const oldNotification = document.querySelector(".notification-toast");
-    if (oldNotification) {
-        oldNotification.remove();
-    }
-
-    const thongBao = document.createElement("div");
-    thongBao.className = `notification-toast fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
-        thanhCong ? "bg-green-500" : "bg-red-500"
-    } text-white transform transition-all duration-300 z-50`;
-    thongBao.textContent = message;
-
-    document.body.appendChild(thongBao);
-
-    // Animation hiển thị
-    setTimeout(() => thongBao.classList.add("opacity-0"), 2500);
-    setTimeout(() => thongBao.remove(), 3000);
-}
-// // Cập nhật số lượng trong giỏ hàng
-// document.querySelectorAll(".update-quantity").forEach((button) => {
-//     button.addEventListener("click", async function () {
-//         const cartId = this.dataset.cartId;
-//         const quantity =
-//             this.closest(".quantity-wrapper").querySelector("input").value;
-
-//         try {
-//             const response = await fetch("/cart/update", {
-//                 method: "PUT",
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "X-CSRF-TOKEN": document.querySelector(
-//                         'meta[name="csrf-token"]'
-//                     ).content,
-//                 },
-//                 body: JSON.stringify({
-//                     cart_id: cartId,
-//                     quantity: quantity,
-//                 }),
-//             });
-
-//             const data = await response.json();
-//             document.querySelector(".cart-badge").textContent = data.cartCount;
-//             // Cập nhật tổng tiền
-//             updateCartTotal();
-//         } catch (error) {
-//             alert("Có lỗi xảy ra khi cập nhật giỏ hàng");
-//         }
-//     });
-// });
-
-// // Xóa sản phẩm khỏi giỏ hàng
-// document.querySelectorAll(".remove-from-cart").forEach((button) => {
-//     button.addEventListener("click", async function () {
-//         if (confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
-//             const cartId = this.dataset.cartId;
-//             try {
-//                 const response = await fetch(`/cart/${cartId}`, {
-//                     method: "DELETE",
-//                     headers: {
-//                         "X-CSRF-TOKEN": document.querySelector(
-//                             'meta[name="csrf-token"]'
-//                         ).content,
-//                     },
-//                 });
-
-//                 const data = await response.json();
-//                 document.querySelector(".cart-badge").textContent =
-//                     data.cartCount;
-//                 // Xóa phần tử khỏi DOM
-//                 this.closest(".cart-item").remove();
-//                 // Cập nhật tổng tiền
-//                 updateCartTotal();
-//             } catch (error) {
-//                 alert("Có lỗi xảy ra khi xóa sản phẩm");
-//             }
-//         }
-//     });
-// });
-// Hiện ẩn mật khẩu
-document.addEventListener("DOMContentLoaded", function () {
     function setupPasswordToggle(toggleId, passwordId, iconId) {
         const toggleButton = document.getElementById(toggleId);
         const passwordInput = document.getElementById(passwordId);
@@ -459,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch((error) => {
                     console.error("Error:", error);
                     showNotification(
-                        "Có lỗi xảy ra. Vui lòng thử lại!",
+                        "Có lỗi xảy ra. Vui lòng thử lại......!",
                         "error"
                     );
                 })
@@ -470,6 +347,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
     });
+    function updateCartCount() {
+        fetch("/cart/count")
+            .then((response) => response.json())
+            .then((data) => {
+                const cartCountElements =
+                    document.querySelectorAll(".cart-count");
+                cartCountElements.forEach((element) => {
+                    element.textContent = data.count;
+                });
+            })
+            .catch((error) =>
+                console.error("Error fetching cart count:", error)
+            );
+    }
+    updateCartCount();
 });
 
 // Show notification function
@@ -494,10 +386,10 @@ function showNotification(message, type = "success") {
     }, 3000);
 }
 
-// Update cart count in header
-function updateCartCount(count) {
-    const cartCountElements = document.querySelectorAll(".cart-count");
-    cartCountElements.forEach((element) => {
-        element.textContent = count;
-    });
-}
+// // Update cart count in header
+// function updateCartCount(count) {
+//     const cartCountElements = document.querySelectorAll(".cart-count");
+//     cartCountElements.forEach((element) => {
+//         element.textContent = count;
+//     });
+// }
