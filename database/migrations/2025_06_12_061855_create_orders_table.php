@@ -25,8 +25,8 @@ return new class extends Migration
             $table->timestamp('order_date');
             $table->timestamp('delivery_date')->nullable();
             $table->timestamps();
-            $table->enum('payment_method', ['cod', 'bank_transfer', 'momo', 'vnpay'])->default('cod')->after('status');
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending')->after('payment_method');
+            $table->enum('payment_method', ['cod', 'bank_transfer'])->default('cod');
+            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
         });
     }
 

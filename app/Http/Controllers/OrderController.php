@@ -112,12 +112,16 @@ class OrderController extends Controller
         return view('checkout.success', compact('order'));
     }
 
-    public function show($id)
-    {
-        $order = Order::with('items')->where('id', $id)
-                     ->where('user_id', Auth::id())
-                     ->firstOrFail();
-
-        return view('orders.show', compact('order'));
+    public function show(Order $order)
+{
+    // Kiểm tra xem đơn hàng có thuộc về người dùng hiện tại không
+    if ($order->user_id !== auth()->id()) {
+        abort(403, 'Bạn không có quyền xem đơn hàng này.');
     }
+
+    // Lấy thông tin chi tiết đơn hàng
+    $order->load('orderItems.product'); // Giả sử bạn có quan hệ orderItems và product
+
+    return view('orders.show', compact('order'));
+}
 }

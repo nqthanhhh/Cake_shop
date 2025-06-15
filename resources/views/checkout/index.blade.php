@@ -98,36 +98,7 @@
                                 </div>
                             </label>
                         </div>
-                        <!-- MoMo -->
-                        <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary cursor-pointer payment-method" onclick="selectPaymentMethod('momo')">
-                            <input type="radio" id="momo" name="payment_method" value="momo"
-                                   {{ old('payment_method') == 'momo' ? 'checked' : '' }}
-                                   class="w-4 h-4 text-primary bg-gray-100 border-gray-300">
-                            <label for="momo" class="ml-3 cursor-pointer flex-1">
-                                <div class="flex items-center">
-                                    <i class="ri-smartphone-line text-xl text-pink-500 mr-3"></i>
-                                    <div>
-                                        <p class="font-medium">Ví MoMo</p>
-                                        <p class="text-sm text-gray-500">Thanh toán qua ví điện tử MoMo</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <!-- VNPay -->
-                        <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary cursor-pointer payment-method" onclick="selectPaymentMethod('vnpay')">
-                            <input type="radio" id="vnpay" name="payment_method" value="vnpay"
-                                   {{ old('payment_method') == 'vnpay' ? 'checked' : '' }}
-                                   class="w-4 h-4 text-primary bg-gray-100 border-gray-300">
-                            <label for="vnpay" class="ml-3 cursor-pointer flex-1">
-                                <div class="flex items-center">
-                                    <i class="ri-bank-card-line text-xl text-blue-500 mr-3"></i>
-                                    <div>
-                                        <p class="font-medium">VNPay</p>
-                                        <p class="text-sm text-gray-500">Thanh toán qua thẻ ATM/Visa/MasterCard</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
+
                     </div>
                 </div>
                 <!-- Thông tin chuyển khoản (hiển thị khi chọn bank transfer) -->
@@ -140,12 +111,6 @@
                         <p><strong>Nội dung CK:</strong> <span class="font-mono bg-white px-2 py-1 rounded">Thanh toan don hang [Mã đơn hàng]</span></p>
                         <p class="text-blue-600"><i class="ri-information-line"></i> Vui lòng chuyển khoản đúng số tiền và nội dung để được xử lý nhanh chóng</p>
                     </div>
-                </div>
-
-                <div>
-                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
-                    <textarea id="notes" name="notes" rows="3" placeholder="Ghi chú thêm về đơn hàng..."
-                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">{{ old('notes') }}</textarea>
                 </div>
 
                 <button type="submit" class="w-full bg-primary text-white py-3 rounded-md font-semibold hover:bg-opacity-90 transition-colors">

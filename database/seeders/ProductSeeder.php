@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
                 'is_featured' => true
             ],
             [
-                'name' => 'Bánh Phô Mai Việt Quất',
+                'name' => 'Bánh Việt Quất',
                 'description' => 'Bánh phô mai mềm mịn với lớp việt quất tươi ngon',
                 'price' => 300000,
                 'image' => 'img/product4.jpg',

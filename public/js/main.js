@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "cart-item flex items-center gap-4 py-4 border-b border-gray-200";
                 cartItemElement.innerHTML = `
       <div class="w-20 h-20 bg-gray-100 rounded overflow-hidden">
-      <img src="${item.image}" alt="${
+      <img src="${asset(item.image)}" alt="${
                     item.name
                 }" class="w-full h-full object-cover object-top">
       </div>

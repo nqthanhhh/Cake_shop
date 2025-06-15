@@ -96,4 +96,8 @@ class Order extends Model
 
         return $statuses[$this->payment_status] ?? $this->payment_status;
     }
+    public function orderItems()
+{
+    return $this->hasMany(OrderItem::class);
+}
 }
