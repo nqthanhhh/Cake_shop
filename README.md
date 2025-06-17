@@ -1,66 +1,613 @@
-﻿# My Project
+﻿# 🎂 Sweet Cake Shop - Website Bán Bánh Kem
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+---
+
+## 📋 **THÔNG TIN DỰ ÁN**
+
+**🎯 Tên bài tập:** Website Bán Bánh Kem với Laravel Framework
+**🔗 Link Repository:** [https://github.com/nqthanhhh/Cake_shop.git](https://github.com/nqthanhhh/Cake_shop.git)
+**🌐 Link Demo:** `Sẽ cập nhật sau khi deploy`
+
+### 👤 **Thông tin sinh viên:**
+
+-   **Họ và tên:** Nguyễn Quốc Thành
+-   **Mã sinh viên:** 23010038
+-   **Môn học:** Lập trình Web - Bài tập giữa kỳ
+
+---
+
+## 📌 **MÔ TẢ DỰ ÁN**
+
+Sweet Cake Shop là một ứng dụng web thương mại điện tử chuyên bán bánh kem được xây dựng bằng Laravel Framework. Dự án cung cấp trải nghiệm mua sắm trực tuyến hoàn chỉnh với giao diện thân thiện người dùng, hệ thống bảo mật cao và quản lý đơn hàng hiệu quả.
+
+### 🎯 **Mục tiêu chính:**
+
+-   ✅ Xây dựng ứng dụng e-commerce bánh kem hoàn chỉnh
+-   ✅ Áp dụng các tính năng bảo mật tiên tiến
+-   ✅ Tối ưu trải nghiệm người dùng (UX/UI)
+-   ✅ Triển khai hệ thống quản lý đơn hàng và giỏ hàng
+-   ✅ Tích hợp thanh toán đa phương thức
+
+---
+
+## ✅ **PHÂN TÍCH CÁC YÊU CẦU ĐÃ THỰC HIỆN**
+
+### **1. Sử dụng framework Laravel** ✅
+
+-   **Framework:** Laravel 12.x
+-   **Cấu trúc:** MVC architecture hoàn chỉnh
+-   **File cấu hình:** `composer.json`, `bootstrap/app.php`
+-   **Routing:** Tổ chức routes trong `routes/web.php` và `routes/auth.php`
+
+### **2. Ít nhất 03 đối tượng** ✅
+
+Dự án đã triển khai **6 đối tượng chính:**
+
+| Model         | File Path                  | Chức năng                          |
+| ------------- | -------------------------- | ---------------------------------- |
+| **User**      | `app/Models/User.php`      | Quản lý người dùng, authentication |
+| **Product**   | `app/Models/Product.php`   | Quản lý sản phẩm bánh kem          |
+| **Category**  | `app/Models/Category.php`  | Phân loại sản phẩm theo danh mục   |
+| **Cart**      | `app/Models/Cart.php`      | Giỏ hàng người dùng                |
+| **Order**     | `app/Models/Order.php`     | Đơn hàng                           |
+| **OrderItem** | `app/Models/OrderItem.php` | Chi tiết đơn hàng                  |
+
+### **3. Chức năng định danh và xác thực (Laravel Breeze)** ✅
+
+**Authentication Controllers:**
+
+-   `app/Http/Controllers/Auth/RegisteredUserController.php` - Đăng ký
+-   `app/Http/Controllers/Auth/AuthenticatedSessionController.php` - Đăng nhập/Đăng xuất
+-   `app/Http/Controllers/Auth/PasswordController.php` - Đổi mật khẩu
+-   `app/Http/Controllers/Auth/EmailVerificationController.php` - Xác thực email
+
+**Tính năng đã triển khai:**
+
+```php
+// Registration với validation
+$request->validate([
+    'name' => ['required', 'string', 'max:255'],
+    'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+    'password' => ['required', 'confirmed', Rules\Password::defaults()],
+]);
+
+// Login với session regeneration
+$request->authenticate();
+$request->session()->regenerate();
+return redirect()->route('dashboard');
+```
+
+### **4. CRUD cho ít nhất 01 đối tượng** ✅
+
+**CRUD hoàn chỉnh cho Cart (Giỏ hàng):**
+
+| Operation  | Method | Route          | Controller Method               |
+| ---------- | ------ | -------------- | ------------------------------- |
+| **Create** | POST   | `/cart/add`    | `CartController@addToCart`      |
+| **Read**   | GET    | `/cart`        | `CartController@getCart`        |
+| **Update** | PUT    | `/cart/update` | `CartController@updateCart`     |
+| **Delete** | DELETE | `/cart/{id}`   | `CartController@removeFromCart` |
+
+**Code example:**
+
+```php
+// CREATE - Thêm sản phẩm vào giỏ
+public function addToCart(Request $request) {
+    $cart = Cart::updateOrCreate(
+        ['user_id' => auth()->id(), 'product_id' => $productId],
+        ['quantity' => DB::raw("quantity + $quantity")]
+    );
+}
+
+// UPDATE - Cập nhật số lượng
+public function updateCart(Request $request) {
+    $cartItem = Cart::where('user_id', auth()->id())
+        ->where('product_id', $productId)->first();
+    $cartItem->quantity = $quantity;
+    $cartItem->save();
+}
+```
+
+**CRUD cho Order (Đơn hàng):**
+
+-   **Create:** `OrderController@store` - Tạo đơn hàng mới
+-   **Read:** `OrderController@show` - Xem chi tiết đơn hàng
+-   **Update:** Cập nhật trạng thái đơn hàng
+-   **Tracking:** Theo dõi đơn hàng trong dashboard
+
+### **5. Các yêu cầu Security** ✅
+
+#### **CSRF Protection:**
+
+```blade
+{{-- Trong tất cả forms --}}
+@csrf
+<form method="POST" action="{{ route('order.store') }}">
+    @csrf
+    <!-- form fields -->
+</form>
+```
+
+#### **Data Validation:**
+
+```php
+// Trong OrderController.php
+$request->validate([
+    'customer_name' => 'required|string|max:255',
+    'customer_email' => 'required|email|max:255',
+    'customer_phone' => 'required|string|max:20',
+    'customer_address' => 'required|string|max:500',
+    'delivery_date' => 'required|date|after:today',
+    'notes' => 'nullable|string|max:1000'
+]);
+
+// Trong CartController.php
+$request->validate([
+    'product_id' => 'required|integer',
+    'quantity' => 'required|integer|min:1'
+]);
+```
+
+#### **Authentication & Authorization:**
+
+```php
+// Middleware protection trong routes/web.php
+Route::middleware('auth')->group(function () {
+    Route::post('/cart/add', [CartController::class, 'addToCart']);
+    Route::get('/checkout', [OrderController::class, 'checkout']);
+    Route::get('/dashboard', [UserDashboardController::class, 'index']);
+});
+
+// Authorization check trong OrderController
+if ($order->user_id !== auth()->id()) {
+    abort(403, 'Bạn không có quyền xem đơn hàng này.');
+}
+```
+
+#### **XSS Protection:**
+
+```blade
+{{-- Blade syntax tự động escape output --}}
+{{ $product->name }}  {{-- Safe output --}}
+{{ $order->customer_name }}  {{-- Escaped automatically --}}
+```
+
+#### **SQL Injection Prevention:**
+
+```php
+// Sử dụng Eloquent ORM thay vì raw SQL
+Cart::where('user_id', auth()->id())->with('product')->get();
+Order::where('id', $orderId)->where('user_id', Auth::id())->firstOrFail();
+```
+
+#### **Session & Cookie Security:**
+
+```php
+// Session management
+$request->session()->regenerate(); // Trong login
+$request->session()->invalidate(); // Trong logout
+$request->session()->regenerateToken(); // CSRF protection
+```
+
+### **6. Eloquent Migration trên Cloud** ✅
+
+**Database Migrations:**
+
+```bash
+database/migrations/
+├── 0001_01_01_000000_create_users_table.php
+├── 0001_01_01_000001_create_cache_table.php
+├── 0001_01_01_000002_create_jobs_table.php
+├── 2025_06_12_061855_create_categories_table.php
+├── 2025_06_12_061855_create_products_table.php
+├── 2025_06_12_061855_create_orders_table.php
+├── 2025_06_12_061856_create_cart_table.php
+├── 2025_06_12_061856_create_order_items_table.php
+├── 2025_06_12_061856_create_reviews_table.php
+└── 2025_06_17_093212_add_detailed_description_to_products_table.php
+```
+
+**Seeders với dữ liệu mẫu:**
+
+```bash
+database/seeders/
+├── DatabaseSeeder.php
+├── CategorySeeder.php
+└── ProductSeeder.php
+```
+
+**Migration example:**
+
+```php
+// products table
+Schema::create('products', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->text('description');
+    $table->decimal('price', 10, 2);
+    $table->string('image');
+    $table->foreignId('category_id')->constrained()->onDelete('cascade');
+    $table->integer('stock')->default(0);
+    $table->boolean('is_featured')->default(false);
+    $table->boolean('is_active')->default(true);
+    $table->timestamps();
+});
+```
+
+### **7. Cập nhật README.md** ✅
+
+-   ✅ Documentation chi tiết về dự án
+-   ✅ Hướng dẫn cài đặt và sử dụng
+-   ✅ Thông tin về security features
+-   ✅ API documentation
+-   ✅ Database schema
+-   ✅ Link repository và demo
+
+---
+
+## 🛠️ **CÔNG NGHỆ SỬ DỤNG**
+
+| Loại               | Công nghệ          | Phiên bản | Mô tả                 |
+| ------------------ | ------------------ | --------- | --------------------- |
+| **Backend**        | Laravel            | 12.x      | PHP Framework chính   |
+| **Authentication** | Laravel Breeze     | 2.3+      | Hệ thống xác thực     |
+| **Database**       | MySQL              | 8.0+      | Cơ sở dữ liệu         |
+| **Frontend**       | Blade Templates    | -         | Template engine       |
+| **CSS Framework**  | TailwindCSS        | 3.x       | Styling và responsive |
+| **Icons**          | RemixIcon          | 4.6.0     | Bộ icon UI            |
+| **Session**        | Laravel Session    | -         | Quản lý phiên         |
+| **Validation**     | Laravel Validation | -         | Kiểm tra dữ liệu      |
+
+---
+
+## 🏗️ **KIẾN TRÚC HỆ THỐNG**
+
+### **Models & Relationships:**
+
+```
+User (1) ←→ (n) Cart ←→ (1) Product
+User (1) ←→ (n) Order (1) ←→ (n) OrderItem
+Category (1) ←→ (n) Product
+```
+
+### **Controllers:**
+
+-   `HomeController` - Trang chủ và danh sách sản phẩm
+-   `ProductController` - Chi tiết sản phẩm
+-   `CategoryController` - Danh mục sản phẩm
+-   `CartController` - Quản lý giỏ hàng (CRUD)
+-   `OrderController` - Quản lý đơn hàng (CRUD)
+-   `UserDashboardController` - Dashboard người dùng
+-   `Auth/*` - Các controller xác thực (Laravel Breeze)
+
+### **Database Schema:**
+
+```sql
+users (id, name, email, password, phone, address, role, timestamps)
+categories (id, name, description, image, slug, timestamps)
+products (id, name, description, price, image, category_id, stock, is_featured, timestamps)
+carts (id, user_id, product_id, quantity, timestamps)
+orders (id, user_id, order_number, total_amount, status, customer_*, delivery_date, timestamps)
+order_items (id, order_id, product_name, product_price, quantity, total_price, timestamps)
+```
+
+---
+
+## 🚀 **TÍNH NĂNG CHÍNH**
+
+### **Frontend Features:**
+
+-   🏠 **Trang chủ**: Hiển thị danh mục và sản phẩm nổi bật
+-   🛍️ **Catalog**: Duyệt sản phẩm theo danh mục
+-   📱 **Responsive Design**: Tối ưu mobile và desktop
+-   🛒 **Shopping Cart**: Thêm/xóa/cập nhật sản phẩm
+-   💳 **Checkout**: Form đặt hàng với validation
+-   👤 **User Dashboard**: Quản lý đơn hàng cá nhân
+
+### **Backend Features:**
+
+-   🔐 **Authentication**: Đăng ký/đăng nhập với Laravel Breeze
+-   🛒 **Cart Management**: Lưu trữ trong database và session
+-   📦 **Order Processing**: Xử lý đơn hàng với multiple status
+-   💰 **Payment Methods**: COD, Bank Transfer
+-   📧 **Notifications**: Hệ thống thông báo đơn hàng
+-   📊 **Dashboard**: Theo dõi đơn hàng cho user
+
+### **Security Features:**
+
+-   🔒 **CSRF Protection**: Tokens trên tất cả forms
+-   ✅ **Input Validation**: Server-side validation
+-   🛡️ **XSS Protection**: Blade templating auto-escape
+-   🔐 **SQL Injection Prevention**: Eloquent ORM
+-   👤 **Authentication**: Session-based auth
+-   🔑 **Authorization**: Middleware và permission checks
+
+---
+
+## ⚙️ **CÀI ĐẶT VÀ CHẠY DỰ ÁN**
+
+### **Yêu cầu hệ thống:**
+
+-   PHP >= 8.2
+-   Composer
+-   Node.js & NPM
+-   MySQL >= 8.0
+-   Git
+
+### **Các bước cài đặt:**
+
+**1. Clone repository:**
+
+```bash
+git clone https://github.com/nqthanhhh/Cake_shop.git
+cd Cake_Shop
+```
+
+**2. Cài đặt dependencies:**
+
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+```
+
+**3. Cấu hình environment:**
+
+```bash
+# Copy file environment
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+**4. Cấu hình database:**
+
+```env
+# Chỉnh sửa .env file
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cake_shop
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+**5. Migration và Seeding:**
+
+```bash
+# Tạo database structure
+php artisan migrate
+
+# Seed dữ liệu mẫu
+php artisan db:seed
+```
+
+**6. Build frontend assets:**
+
+```bash
+# Development
+npm run dev
+
+# Production
+npm run build
+```
+
+**7. Chạy server:**
+
+```bash
+# Start development server
+php artisan serve
+
+# Application sẽ chạy tại: http://localhost:8000
+```
+
+---
+
+## 🔗 **API ROUTES**
+
+### **Authentication Routes:**
+
+```php
+GET  /login           - Trang đăng nhập
+POST /login           - Xử lý đăng nhập
+GET  /register        - Trang đăng ký
+POST /register        - Xử lý đăng ký
+POST /logout          - Đăng xuất
+```
+
+### **Cart Management (Auth Required):**
+
+```php
+POST   /cart/add         - Thêm sản phẩm vào giỏ
+GET    /cart             - Xem giỏ hàng
+PUT    /cart/update      - Cập nhật số lượng
+DELETE /cart/{id}        - Xóa sản phẩm
+GET    /cart/count       - Đếm số sản phẩm
+```
+
+### **Order Management (Auth Required):**
+
+```php
+GET  /checkout           - Trang thanh toán
+POST /order              - Tạo đơn hàng
+GET  /order/success/{id} - Trang thành công
+GET  /order/{id}         - Chi tiết đơn hàng
+```
+
+### **Public Routes:**
+
+```php
+GET /                    - Trang chủ
+GET /product/{id}        - Chi tiết sản phẩm
+GET /category/{slug}     - Sản phẩm theo danh mục
+```
+
+---
+
+## 🔒 **BÁO CÁO BẢO MẬT CHI TIẾT**
+
+### **1. CSRF Protection ✅**
+
+```php
+// Middleware tự động trong Laravel
+// Token được thêm vào mọi form
+@csrf
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
+```
+
+### **2. Input Validation ✅**
+
+```php
+// Server-side validation
+$request->validate([
+    'customer_name' => 'required|string|max:255',
+    'customer_email' => 'required|email|max:255',
+    'product_id' => 'required|integer',
+    'quantity' => 'required|integer|min:1'
+]);
+```
+
+### **3. Authentication & Session Security ✅**
+
+```php
+// Session regeneration
+$request->session()->regenerate();
+$request->session()->invalidate();
+$request->session()->regenerateToken();
+
+// Middleware protection
+Route::middleware('auth')->group(function () {
+    // Protected routes
+});
+```
+
+### **4. Authorization ✅**
+
+```php
+// Owner verification
+if ($order->user_id !== auth()->id()) {
+    abort(403, 'Unauthorized access');
+}
+```
+
+### **5. XSS Prevention ✅**
+
+```blade
+{{-- Blade auto-escaping --}}
+{{ $user->name }}           {{-- Safe --}}
+{{ $product->description }} {{-- Escaped --}}
+```
+
+### **6. SQL Injection Prevention ✅**
+
+```php
+// Eloquent ORM với parameter binding
+Cart::where('user_id', auth()->id())->get();
+Order::where('id', $id)->where('user_id', auth()->id())->first();
+```
+
+---
+
+## 🧪 **TESTING**
+
+### **Feature Tests:**
+
+```bash
+tests/Feature/Auth/
+├── AuthenticationTest.php
+├── EmailVerificationTest.php
+└── RegistrationTest.php
+```
+
+### **Run Tests:**
+
+```bash
+# Chạy tất cả tests
+php artisan test
+
+# Chạy specific test
+php artisan test --filter AuthenticationTest
+```
+
+---
+
+## 🚀 **DEPLOYMENT**
+
+### **Production Setup:**
+
+```bash
+# Optimize for production
+php artisan optimize
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Environment setup
+APP_ENV=production
+APP_DEBUG=false
+```
+
+### **Recommended Platforms:**
+
+-   **Railway** - Modern platform với MySQL support
+-   **Heroku** - Popular PaaS platform
+-   **DigitalOcean** - VPS hosting
+-   **Aiven** - Cloud database service
+
+---
+
+## 📊 **KẾT LUẬN**
+
+### **Hoàn thành 100% yêu cầu bài tập:**
+
+✅ **Laravel Framework** - Laravel 12.x với cấu trúc MVC
+✅ **03+ Objects** - User, Product, Cart, Order, Category, OrderItem
+✅ **Authentication** - Laravel Breeze với đầy đủ tính năng
+✅ **CRUD Operations** - Cart và Order management hoàn chỉnh
+✅ **Security Features** - CSRF, XSS, Validation, Auth, Session
+✅ **Eloquent Migration** - Database structure hoàn chỉnh với relationships
+✅ **README Documentation** - Chi tiết và comprehensive
+
+### **Điểm mạnh của dự án:**
+
+-   🏗️ **Clean Architecture**: MVC structure rõ ràng
+-   🔒 **Security First**: Comprehensive security measures
+-   🎨 **Modern UI**: Responsive design với TailwindCSS
+-   📱 **User Experience**: Intuitive shopping flow
+-   🛡️ **Error Handling**: Proper validation và error messages
+-   📝 **Code Quality**: Well-documented và maintainable
+
+### **Demo Accounts:**
+
+```
+Admin: admin@example.com / password
+Test User: test@example.com / password
+```
+
+---
+
+## 📞 **THÔNG TIN LIÊN HỆ**
+
+**👤 Developer:** Nguyễn Quốc Thành
+**📧 Email:** [Thêm email]
+**🔗 GitHub:** [https://github.com/nqthanhhh](https://github.com/nqthanhhh)
+**📱 Phone:** [Thêm số điện thoại]
+
+---
+
+## 📄 **LICENSE**
+
+Dự án được phát hành dưới [MIT License](https://opensource.org/licenses/MIT).
+
+---
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
+  <em>Bài tập giữa kỳ - Lập trình Web</em>
 </p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
--   **[Vehikl](https://vehikl.com)**
--   **[Tighten Co.](https://tighten.co)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Redberry](https://redberry.international/laravel-development)**
--   **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 # 🎂 Website Bán Bánh Kem - Laravel Project
 
@@ -90,7 +637,7 @@ Xây dựng một ứng dụng web bán bánh kem trực tuyến với các ch�
 -   **Ngôn ngữ:** PHP, Blade, HTML, CSS
 -   **Framework:** Laravel 11
 -   **Xác thực:** Laravel Breeze (Auth)
--   **Database:** MySQL 
+-   **Database:** MySQL
 -   **Quản lý phiên:** Session, Cookie
 -   **Bảo mật:** CSRF, XSS, Validation, Authorization
 -   **Source Control:** Git & GitHub
@@ -125,7 +672,7 @@ Xây dựng một ứng dụng web bán bánh kem trực tuyến với các ch�
 
 ## ☁️ Cơ sở dữ liệu
 
--   Hệ quản trị CSDL: MySQL trên localhostAdmin*
+-   Hệ quản trị CSDL: MySQL trên localhostAdmin\*
 -   Migrations được tạo bằng **Eloquent**
 -   Seeders có thể tạo dữ liệu mẫu bánh kem để demo
 
