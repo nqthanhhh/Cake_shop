@@ -449,29 +449,6 @@ GET /product/{id}        - Chi tiết sản phẩm
 GET /category/{slug}     - Sản phẩm theo danh mục
 ```
 
----
-
-
-## 🧪 **TESTING**
-
-### **Feature Tests:**
-
-```bash
-tests/Feature/Auth/
-├── AuthenticationTest.php
-├── EmailVerificationTest.php
-└── RegistrationTest.php
-```
-
-### **Run Tests:**
-
-```bash
-# Chạy tất cả tests
-php artisan test
-
-# Chạy specific test
-php artisan test --filter AuthenticationTest
-```
 
 ---
 
