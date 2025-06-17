@@ -3,9 +3,7 @@
   <em>Bài tập giữa kỳ - Lập trình Web</em>
 </p>
 ---
-# 🎂 Sweet Cake Shop - Website Bán Bánh Kem
 
----
 
 ## 📋 **THÔNG TIN DỰ ÁN**
 
