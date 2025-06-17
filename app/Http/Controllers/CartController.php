@@ -9,15 +9,33 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function addToCart(Request $request)
+
+public function addToCart(Request $request)
 {
     $request->validate([
         'product_id' => 'required|integer',
-        'quantity' => 'integer|min:1'
+        'quantity' => 'required|integer|min:1'
     ]);
 
     $productId = $request->product_id;
-    $quantity = $request->quantity ?? 1;
+    $quantity = $request->quantity;
+
+    // Kiểm tra sản phẩm có tồn tại hay không
+    $product = \App\Models\Product::find($productId);
+    if (!$product) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Sản phẩm không tồn tại.'
+        ]);
+    }
+
+    // Kiểm tra số lượng tồn kho
+    if ($quantity > $product->stock) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Số lượng sản phẩm không đủ trong kho.'
+        ]);
+    }
 
     if (auth()->check()) {
         // Lưu vào cơ sở dữ liệu nếu người dùng đã đăng nhập
@@ -33,13 +51,19 @@ class CartController extends Controller
         ]);
     } else {
         // Lưu vào session nếu chưa đăng nhập
-        $cart = Session::get('cart', []);
+        $cart = session()->get('cart', []);
         if (isset($cart[$productId])) {
             $cart[$productId]['quantity'] += $quantity;
         } else {
-            $cart[$productId] = ['id' => $productId, 'quantity' => $quantity];
+            $cart[$productId] = [
+                'id' => $productId,
+                'name' => $product->name,
+                'price' => $product->price,
+                'image' => $product->image,
+                'quantity' => $quantity
+            ];
         }
-        Session::put('cart', $cart);
+        session()->put('cart', $cart);
 
         return response()->json([
             'success' => true,

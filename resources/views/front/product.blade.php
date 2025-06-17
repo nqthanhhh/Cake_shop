@@ -4,16 +4,22 @@
 @section('title', $product->name)
 
 @section('content')
-<section class="py-16">
+<section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row gap-12">
+        <div class="flex flex-col md:flex-row gap-12 bg-white p-8 rounded-lg shadow-lg">
             <!-- Hình ảnh sản phẩm -->
             <div class="md:w-1/2">
-                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-full rounded-lg shadow-lg">
+                <div class="relative">
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="w-full rounded-lg shadow-md">
+                    <span class="absolute top-4 left-4 bg-primary text-white text-sm px-3 py-1 rounded-full">
+                        Mới
+                    </span>
+                </div>
             </div>
+
             <!-- Thông tin sản phẩm -->
             <div class="md:w-1/2">
-                <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
+                <h1 class="text-4xl font-bold mb-4 text-gray-800">{{ $product->name }}</h1>
                 <div class="flex items-center mb-4">
                     <!-- Đánh giá sao -->
                     <div class="flex text-yellow-500">
@@ -25,21 +31,36 @@
                     </div>
                     <span class="ml-2 text-gray-500">(120 đánh giá)</span>
                 </div>
-                <p class="text-gray-600 mb-4">{{ $product->description }}</p>
-                <p class="text-primary font-bold text-2xl mb-6">{{ number_format($product->price) }}đ</p>
-                <!-- Nút thêm vào giỏ -->
-                <button
-                    class="add-to-cart bg-primary text-white px-6 py-3 rounded-button hover:bg-opacity-90 transition-colors"
-                    data-product-id="{{ $product->id }}"
-                    data-product-name="{{ $product->name }}"
-                    data-product-price="{{ $product->price }}"
-                    data-product-image="{{ $product->image }}"
-                >
-                    Thêm vào giỏ
-                </button>
+                <p class="text-gray-600 mb-4 leading-relaxed">{{ $product->description }}</p>
+                <p class="text-primary font-bold text-3xl mb-6">{{ number_format($product->price) }}đ</p>
+
+                <!-- Số lượng và nút thêm vào giỏ -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div>
+                        <label for="quantity" class="block text-gray-600 font-medium mb-1">Số lượng:</label>
+                        <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            value="1"
+                            min="1"
+                            class="w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                    </div>
+                    <button
+                        class="add-to-cart bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-all"
+                        data-product-id="{{ $product->id }}"
+                        data-product-name="{{ $product->name }}"
+                        data-product-price="{{ $product->price }}"
+                        data-product-image="{{ $product->image }}"
+                    >
+                        Thêm vào giỏ
+                    </button>
+                </div>
+
                 <!-- Nút chia sẻ -->
                 <div class="mt-6">
-                    <h4 class="text-lg font-bold mb-2">Chia sẻ:</h4>
+                    <h4 class="text-lg font-bold mb-2 text-gray-800">Chia sẻ:</h4>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-500 hover:text-primary">
                             <i class="ri-facebook-fill text-2xl"></i>
@@ -54,12 +75,28 @@
                 </div>
             </div>
         </div>
+
         <!-- Thông tin chi tiết sản phẩm -->
-        <div class="mt-12">
-            <h2 class="text-2xl font-bold mb-4">Chi tiết sản phẩm</h2>
+        <div class="mt-12 bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Chi tiết sản phẩm</h2>
             <p class="text-gray-600 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                {{ $product->detailed_description }}
             </p>
+        </div>
+<!-- Danh mục liên quan -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-4">Danh mục liên quan</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach($categories as $category)
+                <a href="{{ route('category.show', $category->slug) }}" class="block bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="w-full h-100 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold">{{ $category->name }}</h3>
+                        <p class="text-gray-600">{{ $category->description }}</p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </section>

@@ -10,11 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $products = Product::where('is_active', true)
-                          ->where('is_featured', true)
-                          ->latest()
-                          ->get();
+        $categories = Category::all(); // Lấy tất cả danh mục
+        $products = Product::where('is_featured', true)->get(); // Lấy sản phẩm nổi bật
 
-        return view('front.index', compact('products'));
+        return view('front.index', compact('categories', 'products'));
     }
 }

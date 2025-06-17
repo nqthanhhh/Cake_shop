@@ -8,6 +8,7 @@ use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,6 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/cart/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'getCart'])->name('cart.get');
     Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+
+
 
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
 
@@ -35,6 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 
     Route::get('/product/{id}', [ProductController::class, 'show'])->name('product');
+
+Route::get('/category/{slug}', [CategoryController::class, 'index'])->name('category.show');
 
 
 require __DIR__.'/auth.php';

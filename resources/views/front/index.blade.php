@@ -30,97 +30,16 @@
       <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-12">Danh Mục Bánh Kem</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Category 1 -->
-          <div
-            class="category-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-48 overflow-hidden">
-              <img
-              src="{{ asset('img/catego1.jpg')}}"
-                alt="Bánh sinh nhật"
-                class="w-full h-full object-cover object-top"
-              />
+                @foreach($categories as $category)
+                <a href="{{ route('category.show', $category->slug) }}" class="block bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="w-full h-100 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold">{{ $category->name }}</h3>
+                        <p class="text-gray-600">{{ $category->description }}</p>
+                    </div>
+                </a>
+                @endforeach
             </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Sinh Nhật</h3>
-              <p class="text-gray-600 mb-4">
-                Những chiếc bánh đặc biệt cho ngày đặc biệt của bạn
-              </p>
-              <a href="#" class="text-primary font-medium flex items-center">
-                Xem thêm
-                <i class="ri-arrow-right-line ml-2"></i>
-              </a>
-            </div>
-          </div>
-          <!-- Category 2 -->
-          <div
-            class="category-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-48 overflow-hidden">
-              <img
-              src="{{ asset('img/catego2.jpg')}}"
-              alt="Bánh cưới"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Cưới</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh cưới sang trọng cho ngày trọng đại
-              </p>
-              <a href="#" class="text-primary font-medium flex items-center">
-                Xem thêm
-                <i class="ri-arrow-right-line ml-2"></i>
-              </a>
-            </div>
-          </div>
-          <!-- Category 3 -->
-          <div
-            class="category-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-48 overflow-hidden">
-              <img
-              src="{{ asset('img/catego3.jpg')}}"
-
-              alt="Bánh theo chủ đề"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Theo Chủ Đề</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh được thiết kế theo ý tưởng của bạn
-              </p>
-              <a href="#" class="text-primary font-medium flex items-center">
-                Xem thêm
-                <i class="ri-arrow-right-line ml-2"></i>
-              </a>
-            </div>
-          </div>
-          <!-- Category 4 -->
-          <div
-            class="category-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300"
-          >
-            <div class="h-48 overflow-hidden">
-              <img
-              src="{{ asset('img/catego4.jpg')}}"
-
-              alt="Bánh theo dịp"
-                class="w-full h-full object-cover object-top"
-              />
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">Bánh Theo Dịp</h3>
-              <p class="text-gray-600 mb-4">
-                Bánh cho các dịp lễ đặc biệt trong năm
-              </p>
-              <a href="#" class="text-primary font-medium flex items-center">
-                Xem thêm
-                <i class="ri-arrow-right-line ml-2"></i>
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
     <!-- Featured Products Section -->
@@ -134,7 +53,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     @foreach($products as $product)
     <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
-        <div class="h-56 overflow-hidden">
+        <div class="h-100 w-full overflow-hidden">
             <img
                 src="{{ asset($product->image) }}"
                 alt="{{ $product->name }}"
@@ -419,7 +338,7 @@
                   <div class="ml-4">
                     <h4 class="font-bold">Địa chỉ</h4>
                     <p class="text-gray-600">
-                      123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh
+                      phenikaa, 167 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
                     </p>
                   </div>
                 </div>

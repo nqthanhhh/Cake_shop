@@ -49,7 +49,7 @@
       :where([class^="ri-"])::before { content: "\f3c2"; }
       body {
         font-family: 'Montserrat', sans-serif;
-        background-image: url('https://readdy.ai/api/search-image?query=beautiful%20cake%20shop%20interior%20with%20soft%20pastel%20colors%2C%20elegant%20display%20of%20cakes%2C%20warm%20lighting%2C%20blurred%20background%20perfect%20for%20login%20page%2C%20professional%20photography&width=1920&height=1080&seq=login_bg&orientation=landscape');
+        background-image: url("{{ asset('img/backgroud.jpg') }}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
