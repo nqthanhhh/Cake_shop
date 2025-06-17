@@ -15,12 +15,13 @@ class AuthenticatedSessionController extends Controller
     }
 
     public function store(LoginRequest $request)
-    {
-        $request->authenticate();
-        $request->session()->regenerate();
+{
+    $request->authenticate();
+    $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard');
-    }
+    // Chuyển hướng đến dashboard
+    return redirect()->route('dashboard');
+}
 
     public function destroy(Request $request)
     {
@@ -31,4 +32,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
 }

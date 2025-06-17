@@ -184,6 +184,9 @@
             Đăng nhập
           </button>
         </form>
+        @if ($errors->has('email'))
+    <p class="text-red-500 text-sm mt-2">{{ $errors->first('email') }}</p>
+@endif
         <p class="mt-8 text-center text-sm text-gray-600">
           Chưa có tài khoản?
           <a

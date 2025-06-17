@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch((error) => {
                     console.error("Error:", error);
                     showNotification(
-                        "Có lỗi xảy ra. Vui lòng thử lại......!",
+                        "Vui lòng đang nhập để thêm sản phẩm vào giỏ hàng",
                         "error"
                     );
                 })
@@ -385,11 +385,3 @@ function showNotification(message, type = "success") {
         notification.remove();
     }, 3000);
 }
-
-// // Update cart count in header
-// function updateCartCount(count) {
-//     const cartCountElements = document.querySelectorAll(".cart-count");
-//     cartCountElements.forEach((element) => {
-//         element.textContent = count;
-//     });
-// }
