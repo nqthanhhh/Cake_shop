@@ -10,7 +10,6 @@
 
 **🎯 Tên bài tập:** Website Bán Bánh Kem với Laravel Framework
 **🔗 Link Repository:** [https://github.com/nqthanhhh/Cake_shop.git](https://github.com/nqthanhhh/Cake_shop.git)
-**🌐 Link Demo:** `Sẽ cập nhật sau khi deploy`
 
 ### 👤 **Thông tin sinh viên:**
 
