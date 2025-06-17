@@ -1,4 +1,8 @@
-﻿# 🎂 Sweet Cake Shop - Website Bán Bánh Kem
+﻿<p align="center">
+  <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
+  <em>Bài tập giữa kỳ - Lập trình Web</em>
+</p>
+# 🎂 Sweet Cake Shop - Website Bán Bánh Kem
 
 ---
 
@@ -559,9 +563,9 @@ APP_DEBUG=false
 
 ---
 
-## 📊 **KẾT LUẬN**
+## 📊 **Tổng kết**
 
-### **Hoàn thành 100% yêu cầu bài tập:**
+### **Hoàn thành yêu cầu bài tập:**
 
 ✅ **Laravel Framework** - Laravel 12.x với cấu trúc MVC
 ✅ **03+ Objects** - User, Product, Cart, Order, Category, OrderItem
@@ -592,104 +596,8 @@ Test User: test@example.com / password
 ## 📞 **THÔNG TIN LIÊN HỆ**
 
 **👤 Developer:** Nguyễn Quốc Thành
-**📧 Email:** [Thêm email]
+**📧 Email:** [23010038@st.phenikaa-uni.edu.vn]
 **🔗 GitHub:** [https://github.com/nqthanhhh](https://github.com/nqthanhhh)
-**📱 Phone:** [Thêm số điện thoại]
+**📱 Phone:** [0862398217]
 
 ---
-
-## 📄 **LICENSE**
-
-Dự án được phát hành dưới [MIT License](https://opensource.org/licenses/MIT).
-
----
-
-<p align="center">
-  <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
-  <em>Bài tập giữa kỳ - Lập trình Web</em>
-</p>
-
-# 🎂 Website Bán Bánh Kem - Laravel Project
-
-## 👤 Thông tin sinh viên
-
--   **Họ và tên:** Nguyễn Quốc Thành
--   **Mã sinh viên:** 23010038
--   **Môn học:** Lập trình Web - Bài tập giữa kỳ
-
----
-
-## 📌 Mục tiêu dự án
-
-Xây dựng một ứng dụng web bán bánh kem trực tuyến với các chức năng:
-
--   Hiển thị sản phẩm bánh kem theo danh mục
--   Cho phép khách hàng đặt hàng thông qua giỏ hàng
--   Xác thực người dùng (Laravel Breeze)
--   Quản lý sản phẩm (CRUD)
--   Bảo mật và xác thực dữ liệu
--   Sử dụng MySQL Cloud (Aiven) và Eloquent để quản lý dữ liệu
-
----
-
-## 🛠️ Công nghệ sử dụng
-
--   **Ngôn ngữ:** PHP, Blade, HTML, CSS
--   **Framework:** Laravel 11
--   **Xác thực:** Laravel Breeze (Auth)
--   **Database:** MySQL
--   **Quản lý phiên:** Session, Cookie
--   **Bảo mật:** CSRF, XSS, Validation, Authorization
--   **Source Control:** Git & GitHub
-
----
-
-## 🧱 Các đối tượng chính (Models)
-
--   `Product`: Bánh kem (id, tên, mô tả, giá, hình ảnh, loại bánh)
--   `Customer`: Người dùng có thể đăng ký, đăng nhập, mua hàng
--   `CartItem`: Quan hệ giữa Customer và Product, chứa số lượng và giá
-
----
-
-## 🔐 Tính năng bảo mật áp dụng
-
--   CSRF protection cho các form
--   Validation đầu vào ở cả client và server
--   Chống XSS bằng `{{ }}` và HTML Purifier (nếu có)
--   Xác thực người dùng và phân quyền với middleware
--   Sử dụng session và cookies an toàn
--   Truy vấn qua Eloquent ORM tránh SQL injection
-
----
-
-## 🔄 CRUD Được triển khai
-
--   ✅ CRUD cho `CartItem` (thêm vào giỏ, cập nhật số lượng, xoá)
--   ✅ CRUD nội bộ Laravel Breeze cho `User` (Register/Login)
-
----
-
-## ☁️ Cơ sở dữ liệu
-
--   Hệ quản trị CSDL: MySQL trên localhostAdmin\*
--   Migrations được tạo bằng **Eloquent**
--   Seeders có thể tạo dữ liệu mẫu bánh kem để demo
-
----
-
-## 🚀 Cài đặt & chạy thử
-
-```bash
-git clone https://github.com/nqthanhhh/Cake_shop.git
-cd cake-shop
-composer install
-cp .env.example .env
-php artisan key:generate
-
-# Kết nối Aiven MySQL (chỉnh DB trong .env)
-php artisan migrate --seed
-
-php artisan serve
-
-```
