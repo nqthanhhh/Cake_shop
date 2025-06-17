@@ -140,6 +140,9 @@
                 alt="{{ $product->name }}"
                 class="w-full h-full object-cover object-top"
             />
+            <a href="{{ route('product', $product->id) }}" class="view-details-btn">
+            Xem chi tiết
+            </a>
         </div>
         <div class="p-6">
             <h3 class="text-xl font-bold mb-2">{{ $product->name }}</h3>

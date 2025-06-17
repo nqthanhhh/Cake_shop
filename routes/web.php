@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProductController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
 });
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product');
 
 
 require __DIR__.'/auth.php';
