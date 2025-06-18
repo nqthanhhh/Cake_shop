@@ -64,17 +64,17 @@
             >Trang chủ</a
           >
           <a
-            href="#products"
+            href="{{ route('home') }}#products"
             class="text-gray-800 font-medium hover:text-primary transition-colors"
             >Sản phẩm</a
           >
           <a
-            href="#about"
+            href="{{ route('home') }}#about"
             class="text-gray-800 font-medium hover:text-primary transition-colors"
             >Về chúng tôi</a
           >
           <a
-            href="#contact"
+            href="{{ route('home') }}#contact"
             class="text-gray-800 font-medium hover:text-primary transition-colors"
             >Liên hệ</a
           >
@@ -137,14 +137,14 @@
         >Trang chủ</a
         >
         <a
-            href="#products"
+            href="{{ route('home') }}#products"
             class="py-3 border-b border-gray-100 text-gray-800"
         >Sản phẩm</a
         >
-        <a href="#about" class="py-3 border-b border-gray-100 text-gray-800"
+        <a href="{{ route('home') }}#about" class="py-3 border-b border-gray-100 text-gray-800"
         >Về chúng tôi</a
         >
-        <a href="#contact" class="py-3 border-b border-gray-100 text-gray-800"
+        <a href="{{ route('home') }}#contact" class="py-3 border-b border-gray-100 text-gray-800"
         >Liên hệ</a
         >
 
@@ -260,46 +260,16 @@
             <h4 class="text-lg font-bold mb-6">Sản phẩm</h4>
             <ul class="space-y-3">
               <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh sinh nhật</a
-                >
+                <a href="{{ route('category.show', 'banh-sinh-nhat') }}" class="text-gray-400 hover:text-primary transition-colors">Bánh sinh nhật</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh cưới</a
-                >
+                <a href="{{ route('category.show', 'banh-cuoi') }}" class="text-gray-400 hover:text-primary transition-colors">Bánh cưới</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh theo chủ đề</a
-                >
+                <a href="{{ route('category.show', 'banh-theo-chu-de') }}" class="text-gray-400 hover:text-primary transition-colors">Bánh theo chủ đề</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh theo dịp</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh kem trái cây</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="text-gray-400 hover:text-primary transition-colors"
-                  >Bánh mousse</a
-                >
+                <a href="{{ route('category.show', 'banh-theo-dip') }}" class="text-gray-400 hover:text-primary transition-colors">Bánh theo dịp</a>
               </li>
             </ul>
           </div>
