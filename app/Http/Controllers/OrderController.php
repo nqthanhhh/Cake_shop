@@ -12,23 +12,27 @@ use App\Models\Cart;
 
 class OrderController extends Controller
 {
-    public function checkout()
-{
-    $cart = Cart::where('user_id', auth()->id())->with('product')->get();
-
-    if ($cart->isEmpty()) {
-        return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
+    public function checkout(Request $request)
+    {
+        $cart = Cart::where('user_id', auth()->id())->with('product')->get();
+        $selected = $request->selected_products;
+        if (!empty($selected)) {
+            // Đảm bảo $selected là mảng
+            if (!is_array($selected)) {
+                $selected = explode(',', $selected);
+            }
+            $cart = $cart->whereIn('product_id', $selected);
+        }
+        if ($cart->isEmpty()) {
+            return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
+        }
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+        $user = Auth::user();
+        return view('checkout.index', compact('cart', 'total', 'user'));
     }
-
-    $total = 0;
-    foreach ($cart as $item) {
-        $total += $item->product->price * $item->quantity;
-    }
-
-    $user = Auth::user();
-
-    return view('checkout.index', compact('cart', 'total', 'user'));
-}
 
     public function store(Request $request)
     {
@@ -38,30 +42,28 @@ class OrderController extends Controller
             'customer_phone' => 'required|string|max:20',
             'customer_address' => 'required|string|max:500',
             'delivery_date' => 'required|date|after:today',
-            'notes' => 'nullable|string|max:1000'
+            'notes' => 'nullable|string|max:1000',
+            'selected_products' => 'nullable|array',
+            'selected_products.*' => 'integer',
         ]);
-
-            $cart = Cart::where('user_id', auth()->id())->with('product')->get();
-
-        if ($cart->isEmpty()) {
-            return redirect()->route('cart.get')->with('error', 'Giỏ hàng của bạn đang trống!');
+        $cart = Cart::where('user_id', auth()->id())->with('product')->get();
+        $selected = $request->selected_products;
+        if (!empty($selected)) {
+            if (!is_array($selected)) {
+                $selected = explode(',', $selected);
+            }
+            $cart = $cart->whereIn('product_id', $selected);
         }
-
+        if ($cart->isEmpty()) {
+            return redirect()->route('cart.get')->with('error', 'Bạn chưa chọn sản phẩm nào để thanh toán!');
+        }
         try {
             DB::beginTransaction();
-
-            // Tính tổng tiền
-            $totalAmount = 0;
-            foreach ($cart as $item) {
-                $totalAmount = $cart->sum(fn($item) => $item->product->price * $item->quantity);            }
-
-            // Xác định payment status dựa trên method
+            $totalAmount = $cart->sum(fn($item) => $item->product->price * $item->quantity);
             $paymentStatus = 'pending';
             if ($request->payment_method === 'cod') {
-                 $paymentStatus = 'pending'; // Sẽ thanh toán khi nhận hàng
+                $paymentStatus = 'pending';
             }
-
-            // Tạo đơn hàng
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'order_number' => Order::generateOrderNumber(),
@@ -75,26 +77,23 @@ class OrderController extends Controller
                 'order_date' => Carbon::now(),
                 'delivery_date' => Carbon::parse($request->delivery_date)
             ]);
-
-            // Tạo chi tiết đơn hàng
             foreach ($cart as $item) {
                 OrderItem::create([
-    'order_id' => $order->id,
-    'product_name' => $item->product->name,
-    'product_price' => $item->product->price,
-    'product_image' => $item->product->image,
-    'quantity' => $item->quantity,
-    'total_price' => $item->product->price * $item->quantity
-]);
+                    'order_id' => $order->id,
+                    'product_name' => $item->product->name,
+                    'product_price' => $item->product->price,
+                    'product_image' => $item->product->image,
+                    'quantity' => $item->quantity,
+                    'total_price' => $item->product->price * $item->quantity
+                ]);
             }
-
-            // Xóa giỏ hàng
-Cart::where('user_id', auth()->id())->delete();
+            // Xóa các sản phẩm đã đặt khỏi giỏ hàng
+            Cart::where('user_id', auth()->id())
+                ->whereIn('product_id', $cart->pluck('product_id'))
+                ->delete();
             DB::commit();
-
             return redirect()->route('order.success', $order->id)
                 ->with('success', 'Đơn hàng đã được tạo thành công!');
-
         } catch (\Exception $e) {
             DB::rollback();
             return back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!');

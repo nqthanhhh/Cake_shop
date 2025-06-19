@@ -237,6 +237,9 @@
                 placeholder="Nhập mật khẩu"
               />
             </div>
+            @error('password')
+              <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+            @enderror
           </div>
           <div>
             <label
@@ -259,6 +262,10 @@
                 placeholder="Nhập lại mật khẩu"
               />
             </div>
+            @error('password_confirmation')
+              <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+            @enderror
+            <p id="password-match-error" class="mt-1 text-sm text-red-500 hidden">Mật khẩu không khớp</p>
           </div>
 
           <button
@@ -286,68 +293,29 @@
 
       </div>
     </div>
-    {{-- <script>
+
+
+<script src="{{ asset('js/main.js') }}"></script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const password = document.getElementById("password");
     const confirmPassword = document.getElementById("password_confirmation");
-    const termsCheckbox = document.querySelector('input[name="terms"]');
-            // Thêm modal thông báo
+    const matchError = document.getElementById("password-match-error");
 
-    function showAlert(message) {
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        modal.innerHTML = `
-            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm mx-4">
-                <div class="text-center">
-                    <i class="ri-error-warning-line text-5xl text-primary mb-4"></i>
-                    <p class="text-gray-800 mb-6">${message}</p>
-                    <button onclick="this.closest('.fixed').remove()"
-                            class="bg-primary text-white px-6 py-2 rounded-button hover:bg-opacity-90 transition-colors">
-                        Đóng
-                    </button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    }
-
-    function validateForm() {
-        // Kiểm tra điều khoản
-        if (!termsCheckbox.checked) {
-            showAlert("Vui lòng đồng ý với điều khoản sử dụng và chính sách bảo mật");
-            return false;
-        }
-
-        // Kiểm tra mật khẩu
+    function validatePasswordMatch() {
         if (password.value !== confirmPassword.value) {
-            showAlert("Mật khẩu không khớp");
-            return false;
-        }
-
-        return true;
-    }
-
-    // Kiểm tra mật khẩu realtime
-    confirmPassword.addEventListener("input", function() {
-        if (password.value !== confirmPassword.value) {
-            this.setCustomValidity("Mật khẩu không khớp");
+            matchError.classList.remove("hidden");
+            confirmPassword.setCustomValidity("Mật khẩu không khớp");
         } else {
-            this.setCustomValidity("");
+            matchError.classList.add("hidden");
+            confirmPassword.setCustomValidity("");
         }
-    });
+    }
 
-    // Handle form submit
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        if (validateForm()) {
-            form.submit();
-        }
-    });
+    confirmPassword.addEventListener("input", validatePasswordMatch);
+    password.addEventListener("input", validatePasswordMatch);
 });
-</script> --}}
-
-<script src="{{ asset('js/main.js') }}"></script>
+</script>
   </body>
 </html>

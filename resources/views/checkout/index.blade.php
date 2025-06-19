@@ -24,6 +24,15 @@
 
             <form method="POST" action="{{ route('order.store') }}" class="space-y-4">
                 @csrf
+                @php
+                    $selected = request('selected_products');
+                    if (!is_array($selected)) {
+                        $selected = $selected ? explode(',', $selected) : [];
+                    }
+                @endphp
+                @foreach($selected as $pid)
+                    <input type="hidden" name="selected_products[]" value="{{ $pid }}">
+                @endforeach
 
                 <div>
                     <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-2">Họ và tên *</label>

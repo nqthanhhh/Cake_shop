@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use Illuminate\Support\Facades\DB;
- // Assuming you have a Product model
+use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
@@ -144,6 +144,30 @@ public function updateCart(Request $request)
     }
 
     return response()->json(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng!']);
+}
+
+    /**
+     * Xóa nhiều sản phẩm khỏi giỏ hàng
+     */
+    public function removeMultiple(Request $request)
+{
+    $request->validate([
+        'product_ids' => 'required|array',
+        'product_ids.*' => 'integer',
+    ]);
+    $ids = $request->product_ids;
+    if (auth()->check()) {
+        Cart::where('user_id', auth()->id())
+            ->whereIn('product_id', $ids)
+            ->delete();
+    } else {
+        $cart = Session::get('cart', []);
+        foreach ($ids as $id) {
+            unset($cart[$id]);
+        }
+        Session::put('cart', $cart);
+    }
+    return response()->json(['success' => true, 'message' => 'Đã xóa các sản phẩm đã chọn!']);
 }
 
     public function getCartCount()
