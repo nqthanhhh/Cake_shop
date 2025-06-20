@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'is_admin', // thêm dòng này để cho phép gán is_admin
     ];
 
     /**

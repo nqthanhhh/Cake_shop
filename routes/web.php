@@ -9,6 +9,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LoginController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,5 +44,31 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/category/{slug}', [CategoryController::class, 'index'])->name('category.show');
 
+
+// Admin Auth routes
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [LoginController::class, 'login'])->name('admin.login.submit');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/users', [\App\Http\Controllers\Admin\AdminController::class, 'users'])->name('admin.users');
+        Route::get('/orders', [\App\Http\Controllers\Admin\AdminController::class, 'orders'])->name('admin.orders');
+        Route::get('/products', [\App\Http\Controllers\Admin\AdminController::class, 'products'])->name('admin.products');
+        Route::delete('/users/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'deleteUser'])->name('admin.users.delete');
+        Route::get('/users/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'userDetail'])->name('admin.users.detail');
+        Route::get('/users/order/{orderId}', [\App\Http\Controllers\Admin\AdminController::class, 'userOrder'])->name('admin.user.user_order');
+        Route::post('/orders/{orderId}/confirm', [\App\Http\Controllers\Admin\AdminController::class, 'confirmOrder'])->name('admin.user.order_confirm');
+        Route::post('/orders/{orderId}/reject', [\App\Http\Controllers\Admin\AdminController::class, 'rejectOrder'])->name('admin.user.order_reject');
+        Route::delete('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'deleteProduct'])->name('admin.products.delete');
+        Route::get('/products/create', [\App\Http\Controllers\Admin\AdminController::class, 'createProduct'])->name('admin.products.create');
+        Route::post('/products', [\App\Http\Controllers\Admin\AdminController::class, 'storeProduct'])->name('admin.products.store');
+        Route::get('/products/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('admin.products.edit');
+        Route::put('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateProduct'])->name('admin.products.update');
+    });
+});
+
+// Redirect /admin to /admin/login
+Route::redirect('/admin', '/admin/login');
 
 require __DIR__.'/auth.php';

@@ -57,14 +57,13 @@
     <tr class="border-b">
         <td class="px-4 py-2">#{{ $order->order_number }}</td>
         <td class="px-4 py-2">{{ $order->created_at->format('d/m/Y') }}</td>
-        <td class="px-4 py-2">{{ $order->delivery_date ? $order->delivery_date->format('d/m/Y') : '-' }}</td>
         <td class="px-4 py-2">{{ number_format($order->total_amount) }}đ</td>
         <td class="px-4 py-2">
             <span class="px-2 py-1 rounded-full text-sm
                 @if($order->status === 'delivered') bg-green-100 text-green-800
                 @elseif($order->status === 'confirmed') bg-blue-100 text-blue-800
                 @elseif($order->status === 'pending') bg-yellow-100 text-yellow-800
-                @elseif($order->status === 'cancelled') bg-red-100 text-red-800
+                @elseif($order->status === 'rejected') bg-red-100 text-red-800
                 @else bg-gray-100 text-gray-800
                 @endif">
                 {{ $order->getStatusInVietnamese() }}
