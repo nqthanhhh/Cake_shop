@@ -15,7 +15,7 @@
                 <a href="{{ route('admin.products') }}" class="block py-2 px-6 hover:bg-gray-200 rounded transition">Quản lý sản phẩm</a>
             </li>
             <li class="mb-2">
-                <a href="{{ route('logout') }}" class="block py-2 px-6 hover:bg-gray-200 rounded transition">Đăng xuất</a>
+                <a href="{{ route('admin.contacts') }}" class="block py-2 px-6 hover:bg-gray-200 rounded transition">Tin nhắn từ khách</a>
             </li>
         </ul>
     </nav>

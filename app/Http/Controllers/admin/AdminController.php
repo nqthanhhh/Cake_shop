@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Contact;
 
 class AdminController extends Controller
 {
@@ -154,5 +155,11 @@ class AdminController extends Controller
         $product->stock = $request->stock;
         $product->save();
         return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công!');
+    }
+
+    public function contacts()
+    {
+        $contacts = Contact::latest()->get();
+        return view('admin.contacts.index', compact('contacts'));
     }
 }

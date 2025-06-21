@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ContactController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -72,10 +73,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('admin.products.edit');
         Route::put('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateProduct'])->name('admin.products.update');
         Route::post('/admin/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('admin.user.order_shipping');
+        Route::get('/contacts', [\App\Http\Controllers\Admin\AdminController::class, 'contacts'])->name('admin.contacts');
     });
 });
 
 // Redirect /admin to /admin/login
 Route::redirect('/admin', '/admin/login');
+
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 require __DIR__.'/auth.php';

@@ -17,11 +17,13 @@
             Mang đến những chiếc bánh ngọt ngào cho mọi khoảnh khắc đặc biệt của
             bạn
           </p>
-          <button
-            class="bg-primary text-white px-6 py-3 rounded-button text-lg font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap"
-          >
-            Đặt hàng ngay
-          </button>
+            <a href="#products">
+              <button
+                class="bg-primary text-white px-6 py-3 rounded-button text-lg font-medium hover:bg-opacity-90 transition-colors whitespace-nowrap"
+              >
+                Đặt hàng ngay
+              </button>
+            </a>
         </div>
       </div>
     </section>
@@ -274,9 +276,16 @@
         <h2 class="text-3xl font-bold text-center mb-12">
           Liên Hệ Với Chúng Tôi
         </h2>
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Thành công!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
         <div class="flex flex-col md:flex-row gap-12">
           <div class="md:w-1/2">
-            <form>
+            <form action="{{ route('contact.store') }}" method="POST">
+              @csrf
               <div class="mb-6">
                 <label for="name" class="block text-gray-700 mb-2"
                   >Họ và tên</label
@@ -284,8 +293,13 @@
                 <input
                   type="text"
                   id="name"
-                  class="w-full px-4 py-3 rounded-button border border-gray-300 focus:outline-none focus:border-primary"
+                  name="name"
+                  class="w-full px-4 py-3 rounded-button border @error('name') border-red-500 @else border-gray-300 @enderror focus:outline-none focus:border-primary"
+                  value="{{ old('name') }}"
                 />
+                 @error('name')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
               </div>
               <div class="mb-6">
                 <label for="email" class="block text-gray-700 mb-2"
@@ -294,8 +308,13 @@
                 <input
                   type="email"
                   id="email"
-                  class="w-full px-4 py-3 rounded-button border border-gray-300 focus:outline-none focus:border-primary"
+                  name="email"
+                  class="w-full px-4 py-3 rounded-button border @error('email') border-red-500 @else border-gray-300 @enderror focus:outline-none focus:border-primary"
+                   value="{{ old('email') }}"
                 />
+                @error('email')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
               </div>
               <div class="mb-6">
                 <label for="phone" class="block text-gray-700 mb-2"
@@ -304,8 +323,13 @@
                 <input
                   type="tel"
                   id="phone"
-                  class="w-full px-4 py-3 rounded-button border border-gray-300 focus:outline-none focus:border-primary"
+                  name="phone"
+                  class="w-full px-4 py-3 rounded-button border @error('phone') border-red-500 @else border-gray-300 @enderror focus:outline-none focus:border-primary"
+                  value="{{ old('phone') }}"
                 />
+                 @error('phone')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
               </div>
               <div class="mb-6">
                 <label for="message" class="block text-gray-700 mb-2"
@@ -313,9 +337,13 @@
                 >
                 <textarea
                   id="message"
+                  name="message"
                   rows="5"
-                  class="w-full px-4 py-3 rounded-button border border-gray-300 focus:outline-none focus:border-primary"
-                ></textarea>
+                  class="w-full px-4 py-3 rounded-button border @error('message') border-red-500 @else border-gray-300 @enderror focus:outline-none focus:border-primary"
+                >{{ old('message') }}</textarea>
+                 @error('message')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
               </div>
               <button
                 type="submit"
