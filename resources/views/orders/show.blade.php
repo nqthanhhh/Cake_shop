@@ -39,6 +39,7 @@
                             <p class="text-sm text-gray-500">Dự kiến giao hàng</p>
                             <p class="font-semibold text-gray-800">
                                 {{ $order->delivery_date ? $order->delivery_date->format('d/m/Y') : 'Chưa xác định' }}
+                                {{ $order->delivery_time ?? '' }}
                             </p>
                         </div>
                     </div>

@@ -30,6 +30,10 @@
                             <span class="text-green-600 font-bold flex items-center"><i class="fas fa-check mr-1"></i> Đã xác nhận</span>
                         @elseif($order->status === 'rejected')
                             <span class="text-gray-600 font-bold flex items-center"><i class="fas fa-times mr-1"></i> Đã từ chối</span>
+                        @elseif($order->status === 'shipping')
+                            <span class="text-yellow-500 font-bold flex items-center"><i class="fas fa-truck mr-1"></i> Đang vận chuyển</span>
+                        @elseif($order->status === 'cancelled')
+                            <span class="text-red-600 font-bold flex items-center"><i class="fas fa-times mr-1"></i> Đã huỷ</span>
                         @else
                             <span class="text-gray-400 font-bold flex items-center">{{ $order->status }}</span>
                         @endif

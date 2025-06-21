@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order-tracking', [OrderController::class, 'tracking'])->name('order.tracking');
     Route::post('/order/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::post('/order/{orderId}/confirm-cancel', [OrderController::class, 'confirmCancelOrder'])->name('order.confirmCancel');
+    Route::patch('/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('order.shipping');
 });
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 
@@ -68,6 +69,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/products', [\App\Http\Controllers\Admin\AdminController::class, 'storeProduct'])->name('admin.products.store');
         Route::get('/products/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('admin.products.edit');
         Route::put('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateProduct'])->name('admin.products.update');
+        Route::post('/admin/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('admin.user.order_shipping');
     });
 });
 

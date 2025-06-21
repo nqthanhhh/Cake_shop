@@ -22,7 +22,8 @@ class Order extends Model
         'customer_address',
         'notes',
         'order_date',
-        'delivery_date'
+        'delivery_date',
+        'delivery_time'
     ];
 
     protected $casts = [

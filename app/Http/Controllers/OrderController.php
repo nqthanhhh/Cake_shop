@@ -45,6 +45,9 @@ class OrderController extends Controller
             'ward' => 'required|string|max:255',
             'specific_address' => 'required|string|max:500',
             'delivery_date' => 'required|date|after:today',
+            'delivery_hour' => 'required|integer|min:1|max:12',
+            'delivery_minute' => 'required|integer|min:0|max:59',
+            'delivery_ampm' => 'required|string|in:AM,PM',
             'notes' => 'nullable|string|max:1000',
             'selected_products' => 'nullable|array',
             'selected_products.*' => 'integer',
@@ -67,6 +70,7 @@ class OrderController extends Controller
         try {
             DB::beginTransaction();
             $totalAmount = $cart->sum(fn($item) => $item->product->price * $item->quantity);
+            $deliveryTime = $request->delivery_hour . ':' . $request->delivery_minute . ' ' . $request->delivery_ampm;
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'order_number' => Order::generateOrderNumber(),
@@ -78,7 +82,8 @@ class OrderController extends Controller
                 'customer_address' => $customerAddress,
                 'notes' => $request->notes,
                 'order_date' => Carbon::now(),
-                'delivery_date' => Carbon::parse($request->delivery_date)
+                'delivery_date' => Carbon::parse($request->delivery_date),
+                'delivery_time' => $deliveryTime,
             ]);
 
             foreach ($cart as $item) {
@@ -159,5 +164,21 @@ class OrderController extends Controller
     {
         // Method này có thể được sử dụng cho xác nhận hủy đơn hàng nếu cần
         return $this->cancelOrder($orderId);
+    }
+
+    public function updateShippingStatus($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+
+        // Kiểm tra xem trạng thái hiện tại có cho phép chuyển sang "Đang vận chuyển" không
+        if ($order->status !== 'confirmed') {
+            return redirect()->back()->with('error', 'Chỉ có thể chuyển trạng thái đơn hàng sang "Đang vận chuyển" sau khi đã xác nhận!');
+        }
+
+        // Cập nhật trạng thái đơn hàng
+        $order->status = 'shipping';
+        $order->save();
+
+        return redirect()->back()->with('success', 'Trạng thái đơn hàng đã được cập nhật thành "Đang vận chuyển"!');
     }
 }

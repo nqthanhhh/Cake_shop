@@ -30,6 +30,10 @@
                                 <span class="text-green-600 font-bold flex items-center"><i class="fas fa-check mr-1"></i> Đã xác nhận</span>
                             @elseif($order->status === 'rejected')
                                 <span class="text-red-600 font-bold flex items-center"><i class="fas fa-times mr-1"></i> Đã từ chối</span>
+                            @elseif($order->status === 'shipping')
+                                <span class="text-yellow-500 font-bold flex items-center"><i class="fas fa-truck mr-1"></i> Đang giao hàng</span>
+                            @elseif($order->status === 'cancelled')
+                                <span class="text-red-600 font-bold flex items-center"><i class="fas fa-times mr-1"></i> Đã huỷ</span>
                             @else
                                 <span class="text-gray-400 font-bold flex items-center">{{ $order->status }}</span>
                             @endif
@@ -46,6 +50,13 @@
                                 @csrf
                                 <button type="submit" class="text-red-600 hover:text-red-800" title="Từ chối">
                                     <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                            @elseif($order->status === 'confirmed')
+                            <form action="{{ route('admin.user.order_shipping', $order->id) }}" method="POST" style="display:inline">
+                                @csrf
+                                <button type="submit" class="text-yellow-600 hover:text-yellow-800" title="Đang giao hàng">
+                                    <i class="fas fa-truck"></i>
                                 </button>
                             </form>
                             @else

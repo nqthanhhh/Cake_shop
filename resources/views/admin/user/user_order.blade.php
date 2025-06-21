@@ -5,10 +5,14 @@
     <main class="flex-1 p-8">
         <h1 class="text-2xl font-bold mb-6">Chi tiết đơn hàng #{{ $order->order_number }}</h1>
         <div class="bg-white p-6 rounded shadow mb-8">
+            <p><strong>Người đặt hàng:</strong> {{ $order->customer_name }}</p>
+            <p><strong>Số điện thoại:</strong> {{ $order->customer_phone }}</p>
             <p><strong>Ngày đặt hàng:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
             <p><strong>Tổng tiền:</strong> {{ number_format($order->total_amount) }}đ</p>
             <p><strong>Trạng thái:</strong> {{ $order->getStatusInVietnamese() }}</p>
             <p><strong>Địa chỉ giao hàng:</strong> {{ $order->customer_address ?? 'Chưa cập nhật' }}</p>
+            <p><strong>Ngày giờ giao hàng:</strong> {{ $order->delivery_date ? $order->delivery_date->format('d/m/Y') : 'Chưa cập nhật' }} {{ $order->delivery_time ?? '' }}</p>
+
         </div>
         <div class="bg-white p-6 rounded shadow">
             <h2 class="text-xl font-semibold mb-4">Danh sách sản phẩm</h2>

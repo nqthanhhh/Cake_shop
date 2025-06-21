@@ -89,11 +89,36 @@
                 </div>
 
                 <div>
-                    <label for="delivery_date" class="block text-sm font-medium text-gray-700 mb-2">Ngày muốn nhận hàng *</label>
-                    <input type="date" id="delivery_date" name="delivery_date"
-                           value="{{ old('delivery_date') }}" required min="{{ date('Y-m-d', strtotime('+1 day')) }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                    <label for="delivery_datetime" class="block text-sm font-medium text-gray-700 mb-2">Ngày và thời gian muốn nhận hàng *</label>
+                    <div class="grid grid-cols-3 gap-4">
+                        <input type="date" id="delivery_date" name="delivery_date"
+                               value="{{ old('delivery_date', date('Y-m-d', strtotime('+1 day'))) }}" required
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+
+                        <select id="delivery_hour" name="delivery_hour" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" {{ old('delivery_hour') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+
+                        <select id="delivery_minute" name="delivery_minute" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                            @for ($i = 0; $i < 60; $i++)
+                                <option value="{{ $i }}" {{ old('delivery_minute') == $i ? 'selected' : '' }}>{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
+                            @endfor
+                        </select>
+
+                        <select id="delivery_ampm" name="delivery_ampm" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                            <option value="AM" {{ old('delivery_ampm') == 'AM' ? 'selected' : '' }}>AM</option>
+                            <option value="PM" {{ old('delivery_ampm') == 'PM' ? 'selected' : '' }}>PM</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="delivery_time" value="{{ old('delivery_hour') }}:{{ old('delivery_minute') }} {{ old('delivery_ampm') }}">
+
                 </div>
+
 
                 <div>
                     <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">Ghi chú</label>
