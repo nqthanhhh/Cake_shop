@@ -36,7 +36,7 @@
         </div>
 
         <div class="space-x-4">
-            <a href="{{ route('dashboard') }}" class="bg-primary text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors">
+            <a href="{{ route('order.tracking') }}" class="bg-primary text-white px-6 py-3 rounded-md hover:bg-opacity-90 transition-colors">
                 Xem đơn hàng
             </a>
             <a href="{{ route('home') }}" class="bg-gray-500 text-white px-6 py-3 rounded-md hover:bg-gray-600 transition-colors">

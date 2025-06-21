@@ -6,7 +6,7 @@ body {
     color: #333;
 }
 .hero-section {
-    background-image: url("https://readdy.ai/api/search-image?query=beautiful%20cake%20shop%20with%20pastel%20pink%20background%2C%20elegant%20cakes%20displayed%20on%20a%20counter%2C%20soft%20lighting%2C%20high-end%20bakery%20interior%2C%20professional%20photography%2C%20dreamy%20atmosphere%2C%20delicious%20looking%20cakes%2C%20premium%20quality%2C%20romantic%20setting&width=1600&height=800&seq=hero1&orientation=landscape");
+    background-image: url("../img/bgr.jpg");
     background-size: cover;
     background-position: center;
 }

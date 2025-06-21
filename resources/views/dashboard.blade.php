@@ -38,7 +38,7 @@
 
 
         <!-- Lịch sử đơn hàng -->
-        <div>
+        {{-- <div>
             <h2 class="text-2xl font-bold mb-4">Lịch sử đơn hàng</h2>
             @if($orders->count() > 0)
                 <div class="overflow-x-auto">
@@ -82,7 +82,7 @@
             @else
                 <p class="text-gray-500">Bạn chưa có đơn hàng nào</p>
             @endif
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection

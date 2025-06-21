@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order/success/{id}', [OrderController::class, 'success'])->name('order.success');
     Route::get('/order/{id}', [OrderController::class, 'show'])->name('order.show');
+    Route::get('/order-tracking', [OrderController::class, 'tracking'])->name('order.tracking');
+    Route::post('/order/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+    Route::post('/order/{orderId}/confirm-cancel', [OrderController::class, 'confirmCancelOrder'])->name('order.confirmCancel');
 });
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 

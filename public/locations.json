@@ -1,0 +1,32 @@
+{
+    "Hà Nội": {
+        "Ba Đình": ["Phường 1", "Phường 2", "Phường 3"],
+        "Hoàn Kiếm": ["Phường 4", "Phường 5", "Phường 6"],
+        "Đống Đa": ["Phường 7", "Phường 8", "Phường 9"],
+        "Hai Bà Trưng": ["Phường 10", "Phường 11", "Phường 12"]
+    },
+    "TP Hồ Chí Minh": {
+        "Quận 1": ["Phường 1", "Phường 2", "Phường 3"],
+        "Quận 2": ["Phường 4", "Phường 5", "Phường 6"],
+        "Quận 3": ["Phường 7", "Phường 8", "Phường 9"],
+        "Quận 4": ["Phường 10", "Phường 11", "Phường 12"]
+    },
+    "Đà Nẵng": {
+        "Hải Châu": ["Phường 1", "Phường 2", "Phường 3"],
+        "Thanh Khê": ["Phường 4", "Phường 5", "Phường 6"],
+        "Sơn Trà": ["Phường 7", "Phường 8", "Phường 9"],
+        "Ngũ Hành Sơn": ["Phường 10", "Phường 11", "Phường 12"]
+    },
+    "Hải Phòng": {
+        "Hồng Bàng": ["Phường 1", "Phường 2", "Phường 3"],
+        "Ngô Quyền": ["Phường 4", "Phường 5", "Phường 6"],
+        "Lê Chân": ["Phường 7", "Phường 8", "Phường 9"],
+        "Kiến An": ["Phường 10", "Phường 11", "Phường 12"]
+    },
+    "Cần Thơ": {
+        "Ninh Kiều": ["Phường 1", "Phường 2", "Phường 3"],
+        "Bình Thủy": ["Phường 4", "Phường 5", "Phường 6"],
+        "Cái Răng": ["Phường 7", "Phường 8", "Phường 9"],
+        "Ô Môn": ["Phường 10", "Phường 11", "Phường 12"]
+    }
+}

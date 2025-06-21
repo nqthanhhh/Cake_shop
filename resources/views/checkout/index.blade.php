@@ -56,13 +56,40 @@
                 </div>
 
                 <div>
-                    <label for="customer_address" class="block text-sm font-medium text-gray-700 mb-2">Địa chỉ giao hàng *</label>
-                    <textarea id="customer_address" name="customer_address" rows="3" required
-                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">{{ old('customer_address', $user->address) }}</textarea>
+                    <label for="province" class="block text-sm font-medium text-gray-700 mb-2">Tỉnh/Thành phố *</label>
+                    <select id="province" name="province" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">Chọn tỉnh/thành phố</option>
+                        <!-- Options sẽ được thêm bởi JavaScript -->
+                    </select>
                 </div>
 
                 <div>
-                    <label for="delivery_date" class="block text-sm font-medium text-gray-700 mb-2">Ngày giao hàng *</label>
+                    <label for="district" class="block text-sm font-medium text-gray-700 mb-2">Quận/Huyện *</label>
+                    <select id="district" name="district" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">Chọn quận/huyện</option>
+                        <!-- Options sẽ được thêm bởi JavaScript -->
+                    </select>
+                </div>
+
+                <div>
+                    <label for="ward" class="block text-sm font-medium text-gray-700 mb-2">Phường/Xã *</label>
+                    <select id="ward" name="ward" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="">Chọn phường/xã</option>
+                        <!-- Options sẽ được thêm bởi JavaScript -->
+                    </select>
+                </div>
+
+                <div>
+                    <label for="specific_address" class="block text-sm font-medium text-gray-700 mb-2">Địa chỉ cụ thể *</label>
+                    <input type="text" id="specific_address" name="specific_address" required
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+
+                <div>
+                    <label for="delivery_date" class="block text-sm font-medium text-gray-700 mb-2">Ngày muốn nhận hàng *</label>
                     <input type="date" id="delivery_date" name="delivery_date"
                            value="{{ old('delivery_date') }}" required min="{{ date('Y-m-d', strtotime('+1 day')) }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
@@ -92,36 +119,9 @@
                                 </div>
                             </label>
                         </div>
-                        <!-- Bank Transfer -->
-                        <div class="flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary cursor-pointer payment-method" onclick="selectPaymentMethod('bank_transfer')">
-                            <input type="radio" id="bank_transfer" name="payment_method" value="bank_transfer"
-                                   {{ old('payment_method') == 'bank_transfer' ? 'checked' : '' }}
-                                   class="w-4 h-4 text-primary bg-gray-100 border-gray-300">
-                            <label for="bank_transfer" class="ml-3 cursor-pointer flex-1">
-                                <div class="flex items-center">
-                                    <i class="ri-bank-line text-xl text-primary mr-3"></i>
-                                    <div>
-                                        <p class="font-medium">Chuyển khoản ngân hàng</p>
-                                        <p class="text-sm text-gray-500">Chuyển khoản trước khi giao hàng</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
 
                     </div>
                 </div>
-                <!-- Thông tin chuyển khoản (hiển thị khi chọn bank transfer) -->
-                <div id="bank_info" class="hidden bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 class="font-semibold text-blue-800 mb-3">Thông tin chuyển khoản:</h4>
-                    <div class="space-y-2 text-sm">
-                        <p><strong>Ngân hàng:</strong> Vietcombank</p>
-                        <p><strong>Số tài khoản:</strong> 1234567890</p>
-                        <p><strong>Chủ tài khoản:</strong> Sweet Cake Shop</p>
-                        <p><strong>Nội dung CK:</strong> <span class="font-mono bg-white px-2 py-1 rounded">Thanh toan don hang [Mã đơn hàng]</span></p>
-                        <p class="text-blue-600"><i class="ri-information-line"></i> Vui lòng chuyển khoản đúng số tiền và nội dung để được xử lý nhanh chóng</p>
-                    </div>
-                </div>
-
                 <button type="submit" class="w-full bg-primary text-white py-3 rounded-md font-semibold hover:bg-opacity-90 transition-colors">
                     Đặt hàng
                 </button>
@@ -183,20 +183,6 @@ function selectPaymentMethod(method) {
     // Show/hide bank info
     const bankInfo = document.getElementById('bank_info');
     const btnText = document.getElementById('btn_text');
-
-    if (method === 'bank_transfer') {
-        bankInfo.classList.remove('hidden');
-        btnText.textContent = 'Đặt hàng & Xem thông tin CK';
-    } else {
-        bankInfo.classList.add('hidden');
-        if (method === 'cod') {
-            btnText.textContent = 'Đặt hàng (COD)';
-        } else if (method === 'momo') {
-            btnText.textContent = 'Đặt hàng & Thanh toán MoMo';
-        } else if (method === 'vnpay') {
-            btnText.textContent = 'Đặt hàng & Thanh toán VNPay';
-        }
-    }
 }
 
 // Set default selection on page load
@@ -205,6 +191,64 @@ document.addEventListener('DOMContentLoaded', function() {
     if (checkedMethod) {
         selectPaymentMethod(checkedMethod.value);
     }
+
+    const provinceSelect = document.getElementById('province');
+    const districtSelect = document.getElementById('district');
+    const wardSelect = document.getElementById('ward');
+
+    // Kiểm tra nếu các phần tử dropdown tồn tại
+    if (!provinceSelect || !districtSelect || !wardSelect) {
+        console.error('Không tìm thấy các phần tử dropdown!');
+        return;
+    }
+
+    // Fetch dữ liệu từ file JSON
+    fetch('/locations.json')
+        .then(response => response.json())
+        .then(data => {
+            // Điền danh sách tỉnh/thành phố
+            Object.keys(data).forEach(province => {
+                const option = document.createElement('option');
+                option.value = province;
+                option.textContent = province;
+                provinceSelect.appendChild(option);
+            });
+
+            provinceSelect.addEventListener('change', function() {
+                const selectedProvince = this.value;
+                districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+                wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
+
+                if (data[selectedProvince]) {
+                    Object.keys(data[selectedProvince]).forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                } else {
+                    console.warn('Không có dữ liệu quận/huyện cho tỉnh/thành phố này:', selectedProvince);
+                }
+            });
+
+            districtSelect.addEventListener('change', function() {
+                const selectedProvince = provinceSelect.value;
+                const selectedDistrict = this.value;
+                wardSelect.innerHTML = '<option value="">Chọn phường/xã</option>';
+
+                if (data[selectedProvince] && data[selectedProvince][selectedDistrict]) {
+                    data[selectedProvince][selectedDistrict].forEach(ward => {
+                        const option = document.createElement('option');
+                        option.value = ward;
+                        option.textContent = ward;
+                        wardSelect.appendChild(option);
+                    });
+                } else {
+                    console.warn('Không có dữ liệu phường/xã cho quận/huyện này:', selectedDistrict);
+                }
+            });
+        })
+        .catch(error => console.error('Lỗi khi tải dữ liệu địa phương:', error));
 });
 </script>
 @endsection

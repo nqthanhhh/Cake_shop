@@ -49,7 +49,7 @@
       :where([class^="ri-"])::before { content: "\f3c2"; }
       body {
         font-family: 'Montserrat', sans-serif;
-        background-image: url("{{ asset('img/backgroud.jpg') }}");
+        background-image: url("{{ asset('img/bgr.jpg') }}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;

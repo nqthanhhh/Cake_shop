@@ -9,6 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
+
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>
       tailwind.config = {
@@ -90,7 +91,7 @@
             <div class="absolute right-0 mt-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out transform scale-95 group-hover:scale-100">
                 {{-- Các item trong dropdown --}}
                 <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                <a href="{{ route('order.tracking') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Theo dõi đơn hàng</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <a href="{{ route('logout') }}"
@@ -153,6 +154,7 @@
             <div class="py-3 border-b border-gray-100">
                 <span class="text-gray-800 font-medium block">{{ Auth::user()->name }}</span>
                 <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                <a href="{{ route('order.tracking') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Theo dõi đơn hàng</a>
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a> {{-- Bạn có thể thêm route profile.edit --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -355,5 +357,6 @@
       </div>
     </div>
     <script src="{{ asset('js/main.js') }}"></script>
+    @stack('scripts')
   </body>
 </html>
