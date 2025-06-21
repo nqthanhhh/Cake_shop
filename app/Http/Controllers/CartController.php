@@ -39,15 +39,27 @@ public function addToCart(Request $request)
 
     if (auth()->check()) {
         // Lưu vào cơ sở dữ liệu nếu người dùng đã đăng nhập
-        $cart = Cart::updateOrCreate(
-            ['user_id' => auth()->id(), 'product_id' => $productId],
-            ['quantity' => DB::raw("quantity + $quantity")]
-        );
+        $cartItem = Cart::where('user_id', auth()->id())
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cartItem) {
+            // Sản phẩm đã có trong giỏ hàng, cập nhật số lượng
+            $cartItem->quantity += $quantity;
+            $cartItem->save();
+        } else {
+            // Sản phẩm chưa có trong giỏ hàng, tạo mới
+            Cart::create([
+                'user_id' => auth()->id(),
+                'product_id' => $productId,
+                'quantity' => $quantity
+            ]);
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Sản phẩm đã được thêm vào giỏ hàng!',
-            'cart_count' => Cart::where('user_id', auth()->id())->count()
+            'cart_count' => Cart::where('user_id', auth()->id())->sum('quantity')
         ]);
     } else {
         // Lưu vào session nếu chưa đăng nhập
@@ -68,7 +80,7 @@ public function addToCart(Request $request)
         return response()->json([
             'success' => true,
             'message' => 'Sản phẩm đã được thêm vào giỏ hàng!',
-            'cart_count' => count($cart)
+            'cart_count' => array_sum(array_column($cart, 'quantity'))
         ]);
     }
 }
@@ -177,6 +189,9 @@ public function updateCart(Request $request)
     if (auth()->check()) {
         // Lấy số lượng sản phẩm trong giỏ hàng từ cơ sở dữ liệu
         $cartCount = Cart::where('user_id', auth()->id())->sum('quantity');
+    } else {
+        $cart = Session::get('cart', []);
+        $cartCount = array_sum(array_column($cart, 'quantity'));
     }
 
     return response()->json(['count' => $cartCount]);

@@ -35,17 +35,21 @@
                 <p class="text-primary font-bold text-3xl mb-6">{{ number_format($product->price) }}đ</p>
 
                 <!-- Số lượng và nút thêm vào giỏ -->
-                <div class="flex items-center gap-4 mb-6">
+                <div class="flex items-end gap-4 mb-6">
                     <div>
                         <label for="quantity" class="block text-gray-600 font-medium mb-1">Số lượng:</label>
-                        <input
-                            type="number"
-                            id="quantity"
-                            name="quantity"
-                            value="1"
-                            min="1"
-                            class="w-20 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary"
-                        >
+                        <div class="flex items-center">
+                            <button type="button" id="decrement-button" class="px-3 py-2 border border-r-0 border-gray-300 rounded-l-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">-</button>
+                            <input
+                                type="number"
+                                id="quantity"
+                                name="quantity"
+                                value="1"
+                                min="1"
+                                class="w-16 text-center border-t border-b border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                            <button type="button" id="increment-button" class="px-3 py-2 border border-l-0 border-gray-300 rounded-r-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">+</button>
+                        </div>
                     </div>
                     <button
                         class="add-to-cart bg-primary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition-all"
@@ -78,9 +82,11 @@
 
         <!-- Thông tin chi tiết sản phẩm -->
         <div class="mt-12 bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Chi tiết sản phẩm</h2>
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Mô tả</h2>
             <p class="text-gray-600 leading-relaxed">
-                {{ $product->detailed_description }}
+                {{ $product->detailed_description }} <br>
+
+                Mặc định size bánh là 6 inch, nếu bạn muốn đặt size khác thì vui lòng liên hệ với chúng tôi qua số điện thoại hoặc email.
             </p>
         </div>
 <!-- Danh mục liên quan -->
@@ -101,3 +107,24 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const quantityInput = document.getElementById('quantity');
+        const incrementButton = document.getElementById('increment-button');
+        const decrementButton = document.getElementById('decrement-button');
+
+        incrementButton.addEventListener('click', function () {
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        });
+
+        decrementButton.addEventListener('click', function () {
+            const currentValue = parseInt(quantityInput.value);
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        });
+    });
+</script>
+@endpush

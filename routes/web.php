@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\ReviewController;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/order/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::post('/order/{orderId}/confirm-cancel', [OrderController::class, 'confirmCancelOrder'])->name('order.confirmCancel');
     Route::patch('/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('order.shipping');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 
