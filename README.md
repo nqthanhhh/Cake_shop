@@ -1,7 +1,5 @@
-    ﻿<p align="center">
   <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
   <em>Bài tập giữa kỳ - Lập trình Web</em>
-</p>
 
 ---
 
