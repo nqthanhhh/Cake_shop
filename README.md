@@ -1060,6 +1060,21 @@ public function getOrderTimeline()
 
 ---
 
+## 📌 **MÔ TẢ DỰ ÁN**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/product-listing.png" alt="Product Listing" width="100%">
+<p align="center"><em>Danh sách sản phẩm bánh kem</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/product_1.png" alt="Product Detail" width="100%">
+<p align="center"><em>Chi tiết sản phẩm với reviews</em></p>
+</td>
+</tr>
+</table>
+
 ## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
 ### **👤 Thông tin Developer:**
