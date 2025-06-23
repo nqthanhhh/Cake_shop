@@ -1,5 +1,5 @@
-  <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
-  <em>Bài tập giữa kỳ - Lập trình Web</em>
+﻿<strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
+<em>Bài tập giữa kỳ - Lập trình Web</em>
 
 ---
 
@@ -326,254 +326,31 @@ Schema::create('products', function (Blueprint $table) {
 
 ### **📊 Sơ đồ kiến trúc tổng quan:**
 
-```mermaid
-graph TB
-    subgraph "Frontend Layer"
-        UI[User Interface - Blade Templates]
-        RWD[Responsive Design - TailwindCSS]
-    end
-
-    subgraph "Application Layer"
-        RC[Route Controllers]
-        MW[Middleware Layer]
-        VA[Validation Layer]
-    end
-
-    subgraph "Business Logic Layer"
-        UC[User Controllers]
-        AC[Admin Controllers]
-        AUTH[Authentication]
-    end
-
-    subgraph "Data Access Layer"
-        ORM[Eloquent ORM]
-        MIG[Database Migrations]
-        SEED[Database Seeders]
-    end
-
-    subgraph "Database Layer"
-        DB[(MySQL Database)]
-    end
-
-    UI --> RC
-    RWD --> RC
-    RC --> MW
-    MW --> VA
-    VA --> UC
-    VA --> AC
-    UC --> AUTH
-    AC --> AUTH
-    AUTH --> ORM
-    ORM --> MIG
-    ORM --> SEED
-    MIG --> DB
-    SEED --> DB
-```
+<div align="center">
+  <img src="images/system-architecture.png" alt="System Architecture" width="800">
+  <p><em>Sơ đồ kiến trúc hệ thống MVC Laravel</em></p>
+</div>
 
 ### **🔄 Sơ đồ Flow kiến trúc MVC:**
 
-```mermaid
-graph LR
-    subgraph "VIEW LAYER"
-        V1[Blade Templates]
-        V2[Frontend Views]
-        V3[Admin Views]
-        V4[Auth Views]
-    end
-
-    subgraph "CONTROLLER LAYER"
-        C1[HomeController]
-        C2[ProductController]
-        C3[CartController]
-        C4[OrderController]
-        C5[AdminController]
-        C6[AuthController]
-    end
-
-    subgraph "MODEL LAYER"
-        M1[User Model]
-        M2[Product Model]
-        M3[Cart Model]
-        M4[Order Model]
-        M5[Category Model]
-        M6[Review Model]
-    end
-
-    subgraph "DATABASE"
-        DB[(MySQL)]
-    end
-
-    V1 -.-> C1
-    V2 -.-> C2
-    V2 -.-> C3
-    V2 -.-> C4
-    V3 -.-> C5
-    V4 -.-> C6
-
-    C1 --> M1
-    C2 --> M2
-    C3 --> M3
-    C4 --> M4
-    C5 --> M1
-    C5 --> M2
-    C6 --> M1
-
-    M1 --> DB
-    M2 --> DB
-    M3 --> DB
-    M4 --> DB
-    M5 --> DB
-    M6 --> DB
-```
+<div align="center">
+  <img src="images/mvc-flow.png" alt="MVC Flow Diagram" width="800">
+  <p><em>Luồng xử lý MVC trong Laravel</em></p>
+</div>
 
 ### **🗃️ Database Relationships Diagram:**
 
-```mermaid
-erDiagram
-    USERS ||--o{ CARTS : owns
-    USERS ||--o{ ORDERS : places
-    USERS ||--o{ REVIEWS : writes
-
-    CATEGORIES ||--o{ PRODUCTS : contains
-
-    PRODUCTS ||--o{ CARTS : "added to"
-    PRODUCTS ||--o{ ORDER_ITEMS : "ordered in"
-    PRODUCTS ||--o{ REVIEWS : receives
-
-    ORDERS ||--o{ ORDER_ITEMS : contains
-
-    ADMINS {
-        int id PK
-        string name
-        string email UK
-        string password
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    USERS {
-        int id PK
-        string name
-        string email UK
-        string password
-        string phone
-        text address
-        enum role
-        timestamp email_verified_at
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    CATEGORIES {
-        int id PK
-        string name
-        text description
-        string image
-        string slug UK
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    PRODUCTS {
-        int id PK
-        string name
-        text description
-        text detailed_description
-        decimal price
-        string image
-        int category_id FK
-        int stock
-        boolean is_featured
-        boolean is_active
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    CARTS {
-        int id PK
-        int user_id FK
-        int product_id FK
-        int quantity
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    ORDERS {
-        int id PK
-        int user_id FK
-        string order_number UK
-        decimal total_amount
-        enum status
-        string payment_method
-        string payment_status
-        string customer_name
-        string customer_email
-        string customer_phone
-        text customer_address
-        text notes
-        timestamp order_date
-        timestamp delivery_date
-        string delivery_time
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    ORDER_ITEMS {
-        int id PK
-        int order_id FK
-        string product_name
-        decimal product_price
-        string product_image
-        int quantity
-        decimal total_price
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    REVIEWS {
-        int id PK
-        int user_id FK
-        int product_id FK
-        tinyint rating
-        text comment
-        timestamp created_at
-        timestamp updated_at
-    }
-
-    CONTACTS {
-        int id PK
-        string name
-        string email
-        string phone
-        text message
-        timestamp created_at
-        timestamp updated_at
-    }
-```
+<div align="center">
+  <img src="images/database-schema.png" alt="Database Schema" width="800">
+  <p><em>Sơ đồ quan hệ cơ sở dữ liệu</em></p>
+</div>
 
 ### **🔐 Authentication & Authorization Flow:**
 
-```mermaid
-graph TD
-    A[User Request] --> B{Authenticated?}
-    B -->|No| C[Redirect to Login]
-    B -->|Yes| D{Admin Guard?}
-
-    D -->|Admin Route| E{Is Admin?}
-    D -->|User Route| F[Process User Request]
-
-    E -->|Yes| G[Process Admin Request]
-    E -->|No| H[403 Forbidden]
-
-    C --> I[Laravel Breeze Login]
-    I --> J{Login Success?}
-    J -->|Yes| K[Regenerate Session]
-    J -->|No| L[Back with Error]
-
-    K --> M[Redirect to Dashboard]
-    F --> N[Return Response]
-    G --> O[Return Admin Response]
-```
+<div align="center">
+  <img src="images/auth-flow.png" alt="Authentication Flow" width="800">
+  <p><em>Luồng xác thực và phân quyền</em></p>
+</div>
 
 ### **Controllers Architecture:**
 
@@ -924,56 +701,17 @@ APP_DEBUG=false
 
 **E-commerce Purchase Flow:**
 
-```mermaid
-graph TD
-    A[Browse Products] --> B[Select Product]
-    B --> C[Add to Cart]
-    C --> D{User Logged In?}
-    D -->|No| E[Session Cart]
-    D -->|Yes| F[Database Cart]
-    E --> G[Register/Login]
-    F --> H[View Cart]
-    G --> H
-    H --> I[Select Items]
-    I --> J[Checkout Form]
-    J --> K[Validate Data]
-    K --> L[Create Order]
-    L --> M[Order Confirmation]
-    M --> N[Admin Review]
-    N --> O[Order Processing]
-    O --> P[Delivery]
-```
+<div align="center">
+  <img src="images/purchase-flow.png" alt="Purchase Flow" width="800">
+  <p><em>Quy trình mua hàng từ browse đến checkout</em></p>
+</div>
 
 **Admin Management Flow:**
 
-```mermaid
-graph TD
-    A[Admin Login] --> B{Authentication}
-    B -->|Success| C[Admin Dashboard]
-    B -->|Fail| A
-    C --> D[Choose Management]
-    D --> E[User Management]
-    D --> F[Product Management]
-    D --> G[Order Management]
-    D --> H[Contact Management]
-
-    E --> E1[View Users]
-    E --> E2[Delete Users]
-    E --> E3[View User Details]
-
-    F --> F1[Create Product]
-    F --> F2[Edit Product]
-    F --> F3[Delete Product]
-    F --> F4[View Products]
-
-    G --> G1[View Orders]
-    G --> G2[Confirm Orders]
-    G --> G3[Reject Orders]
-    G --> G4[Update Status]
-
-    H --> H1[View Messages]
-    H --> H2[Respond to Contacts]
-```
+<div align="center">
+  <img src="images/admin-flow.png" alt="Admin Management Flow" width="800">
+  <p><em>Luồng quản lý admin panel</em></p>
+</div>
 
 ### **🚀 Advanced Technical Implementation:**
 
@@ -1040,7 +778,6 @@ public function getOrderTimeline()
 }
 ```
 
-<<<<<<< HEAD
 ### **🔮 Khả năng mở rộng:**
 
 **Tính năng có thể bổ sung:**
@@ -1072,8 +809,6 @@ public function getOrderTimeline()
 </tr>
 </table>
 
-=======
->>>>>>> c4aa60881db02cec1a9e5df90e5aace3d07e9e6f
 ## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
 ### **👤 Thông tin Developer:**
