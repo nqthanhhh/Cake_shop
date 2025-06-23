@@ -1044,22 +1044,6 @@ public function getOrderTimeline()
 }
 ```
 
-### **🔮 Khả năng mở rộng:**
-
-**Tính năng có thể bổ sung:**
-
--   💳 **Payment Gateway**: Tích hợp thực tế MoMo, VNPay, PayPal
--   � **Email Notifications**: Thông báo qua email cho các sự kiện
--   📊 **Analytics**: Dashboard analytics chi tiết hơn
--   🔍 **Search & Filter**: Tìm kiếm và lọc sản phẩm nâng cao
--   📱 **Mobile App**: API cho mobile application
--   🌐 **Multi-language**: Hỗ trợ đa ngôn ngữ
--   📦 **Inventory Management**: Quản lý kho chi tiết hơn
--   🎁 **Coupon System**: Hệ thống mã giảm giá
--   📈 **Reporting**: Báo cáo doanh thu và analytics
-
----
-
 ## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
 ### **👤 Thông tin Developer:**
