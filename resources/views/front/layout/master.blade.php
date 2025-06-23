@@ -356,6 +356,7 @@
         </div>
       </div>
     </div>
+    <script src="//unpkg.com/alpinejs" defer></script>
     <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')
   </body>
