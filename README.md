@@ -794,27 +794,7 @@ public function getOrderTimeline()
 
 ---
 
-// ...existing code...
-
-## 📌 **MÔ TẢ DỰ ÁN**
-
-<div align="center">
-  <img src="screenshots/homepage-banner.png" alt="Sweet Cake Shop Homepage" width="800">
-  <p><em>Trang chủ Sweet Cake Shop với banner chào mừng</em></p>
-</div>
-
-<table>
-<tr>
-<td width="50%">
-<img src="screenshots/product-grid.png" alt="Product Grid" width="100%">
-<p align="center"><em>Lưới sản phẩm bánh kem nổi bật</em></p>
-</td>
-<td width="50%">
-<img src="screenshots/product-detail-page.png" alt="Product Detail" width="100%">
-<p align="center"><em>Trang chi tiết sản phẩm với đánh giá</em></p>
-</td>
-</tr>
-</table>
+## 📌 **MỘT SỐ HÌNH ẢNH DỰ ÁN**
 
 ---
 
