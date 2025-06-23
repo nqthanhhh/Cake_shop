@@ -326,33 +326,282 @@ Schema::create('products', function (Blueprint $table) {
 
 ## 🏗️ **KIẾN TRÚC HỆ THỐNG**
 
-### **Models & Relationships:**
+### **📊 Sơ đồ kiến trúc tổng quan:**
 
-```
-User (1) ←→ (n) Cart ←→ (1) Product
-User (1) ←→ (n) Order (1) ←→ (n) OrderItem
-Category (1) ←→ (n) Product
+```mermaid
+graph TB
+    subgraph "Frontend Layer"
+        UI[User Interface - Blade Templates]
+        RWD[Responsive Design - TailwindCSS]
+    end
+
+    subgraph "Application Layer"
+        RC[Route Controllers]
+        MW[Middleware Layer]
+        VA[Validation Layer]
+    end
+
+    subgraph "Business Logic Layer"
+        UC[User Controllers]
+        AC[Admin Controllers]
+        AUTH[Authentication]
+    end
+
+    subgraph "Data Access Layer"
+        ORM[Eloquent ORM]
+        MIG[Database Migrations]
+        SEED[Database Seeders]
+    end
+
+    subgraph "Database Layer"
+        DB[(MySQL Database)]
+    end
+
+    UI --> RC
+    RWD --> RC
+    RC --> MW
+    MW --> VA
+    VA --> UC
+    VA --> AC
+    UC --> AUTH
+    AC --> AUTH
+    AUTH --> ORM
+    ORM --> MIG
+    ORM --> SEED
+    MIG --> DB
+    SEED --> DB
 ```
 
-### **Controllers:**
+### **🔄 Sơ đồ Flow kiến trúc MVC:**
+
+```mermaid
+graph LR
+    subgraph "VIEW LAYER"
+        V1[Blade Templates]
+        V2[Frontend Views]
+        V3[Admin Views]
+        V4[Auth Views]
+    end
+
+    subgraph "CONTROLLER LAYER"
+        C1[HomeController]
+        C2[ProductController]
+        C3[CartController]
+        C4[OrderController]
+        C5[AdminController]
+        C6[AuthController]
+    end
+
+    subgraph "MODEL LAYER"
+        M1[User Model]
+        M2[Product Model]
+        M3[Cart Model]
+        M4[Order Model]
+        M5[Category Model]
+        M6[Review Model]
+    end
+
+    subgraph "DATABASE"
+        DB[(MySQL)]
+    end
+
+    V1 -.-> C1
+    V2 -.-> C2
+    V2 -.-> C3
+    V2 -.-> C4
+    V3 -.-> C5
+    V4 -.-> C6
+
+    C1 --> M1
+    C2 --> M2
+    C3 --> M3
+    C4 --> M4
+    C5 --> M1
+    C5 --> M2
+    C6 --> M1
+
+    M1 --> DB
+    M2 --> DB
+    M3 --> DB
+    M4 --> DB
+    M5 --> DB
+    M6 --> DB
+```
+
+### **🗃️ Database Relationships Diagram:**
+
+```mermaid
+erDiagram
+    USERS ||--o{ CARTS : owns
+    USERS ||--o{ ORDERS : places
+    USERS ||--o{ REVIEWS : writes
+
+    CATEGORIES ||--o{ PRODUCTS : contains
+
+    PRODUCTS ||--o{ CARTS : "added to"
+    PRODUCTS ||--o{ ORDER_ITEMS : "ordered in"
+    PRODUCTS ||--o{ REVIEWS : receives
+
+    ORDERS ||--o{ ORDER_ITEMS : contains
+
+    ADMINS {
+        int id PK
+        string name
+        string email UK
+        string password
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    USERS {
+        int id PK
+        string name
+        string email UK
+        string password
+        string phone
+        text address
+        enum role
+        timestamp email_verified_at
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CATEGORIES {
+        int id PK
+        string name
+        text description
+        string image
+        string slug UK
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    PRODUCTS {
+        int id PK
+        string name
+        text description
+        text detailed_description
+        decimal price
+        string image
+        int category_id FK
+        int stock
+        boolean is_featured
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CARTS {
+        int id PK
+        int user_id FK
+        int product_id FK
+        int quantity
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ORDERS {
+        int id PK
+        int user_id FK
+        string order_number UK
+        decimal total_amount
+        enum status
+        string payment_method
+        string payment_status
+        string customer_name
+        string customer_email
+        string customer_phone
+        text customer_address
+        text notes
+        timestamp order_date
+        timestamp delivery_date
+        string delivery_time
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ORDER_ITEMS {
+        int id PK
+        int order_id FK
+        string product_name
+        decimal product_price
+        string product_image
+        int quantity
+        decimal total_price
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    REVIEWS {
+        int id PK
+        int user_id FK
+        int product_id FK
+        tinyint rating
+        text comment
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    CONTACTS {
+        int id PK
+        string name
+        string email
+        string phone
+        text message
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+### **🔐 Authentication & Authorization Flow:**
+
+```mermaid
+graph TD
+    A[User Request] --> B{Authenticated?}
+    B -->|No| C[Redirect to Login]
+    B -->|Yes| D{Admin Guard?}
+
+    D -->|Admin Route| E{Is Admin?}
+    D -->|User Route| F[Process User Request]
+
+    E -->|Yes| G[Process Admin Request]
+    E -->|No| H[403 Forbidden]
+
+    C --> I[Laravel Breeze Login]
+    I --> J{Login Success?}
+    J -->|Yes| K[Regenerate Session]
+    J -->|No| L[Back with Error]
+
+    K --> M[Redirect to Dashboard]
+    F --> N[Return Response]
+    G --> O[Return Admin Response]
+```
+
+### **Controllers Architecture:**
 
 **Frontend Controllers:**
 
--   `HomeController` - Trang chủ và danh sách sản phẩm
--   `ProductController` - Chi tiết sản phẩm
--   `CategoryController` - Danh mục sản phẩm
--   `CartController` - Quản lý giỏ hàng (CRUD)
--   `OrderController` - Quản lý đơn hàng (CRUD)
--   `UserDashboardController` - Dashboard người dùng
--   `ReviewController` - Đánh giá sản phẩm
+-   `HomeController` - Trang chủ và danh sách sản phẩm nổi bật
+-   `ProductController` - Chi tiết sản phẩm với reviews
+-   `CategoryController` - Danh mục sản phẩm theo slug
+-   `CartController` - Quản lý giỏ hàng (CRUD) với session/database
+-   `OrderController` - Quản lý đơn hàng (CRUD) với order tracking
+-   `UserDashboardController` - Dashboard người dùng với order history
+-   `ReviewController` - Đánh giá sản phẩm với validation
 -   `ContactController` - Liên hệ từ khách hàng
--   `PaymentController` - Xử lý thanh toán (demo)
 -   `Auth/*` - Các controller xác thực (Laravel Breeze)
 
 **Admin Controllers:**
 
 -   `Admin\AdminController` - Quản lý toàn bộ admin panel
--   `Admin\Auth\LoginController` - Đăng nhập admin riêng biệt
+-   `Admin\Auth\LoginController` - Đăng nhập admin riêng biệt với guard
+
+**Middleware Layer:**
+
+-   `AdminMiddleware` - Kiểm tra quyền admin
+-   `Authenticate` - Kiểm tra đăng nhập
+-   `VerifyCsrfToken` - CSRF Protection
+-   `EncryptCookies` - Cookie encryption
 
 ### **Database Schema:**
 
@@ -613,7 +862,7 @@ APP_ENV=production
 APP_DEBUG=false
 ```
 
-```
+---
 
 ## 📊 **TỔNG KẾT VÀ ĐÁNH GIÁ DỰ ÁN**
 
@@ -660,16 +909,140 @@ APP_DEBUG=false
 -   🚀 **Performance**: Optimized queries và caching
 -   ♿ **Accessibility**: Semantic HTML và proper forms
 
-### **📈 Số liệu thống kê:**
+### **📈 Số liệu thống kê chi tiết:**
 
-| Thành phần      | Số lượng | Mô tả                                                                   |
-| --------------- | -------- | ----------------------------------------------------------------------- |
-| **Models**      | 9        | User, Admin, Product, Category, Cart, Order, OrderItem, Review, Contact |
-| **Controllers** | 12+      | Frontend + Admin + Auth controllers                                     |
-| **Migrations**  | 12+      | Database structure hoàn chỉnh                                           |
-| **Routes**      | 30+      | API endpoints cho tất cả features                                       |
-| **Views**       | 25+      | Blade templates với layouts                                             |
-| **Middleware**  | 5+       | Auth, CSRF, Admin protection                                            |
+| Thành phần           | Số lượng | Mô tả chi tiết                                                          |
+| -------------------- | -------- | ----------------------------------------------------------------------- |
+| **Models**           | 9        | User, Admin, Product, Category, Cart, Order, OrderItem, Review, Contact |
+| **Controllers**      | 15+      | Frontend + Admin + Auth + Specialized controllers                       |
+| **Migrations**       | 15+      | Bao gồm cả core và custom migrations                                    |
+| **Seeders**          | 4        | DatabaseSeeder, AdminSeeder, CategorySeeder, ProductSeeder              |
+| **Routes**           | 40+      | Public, Auth, Admin routes với middleware protection                    |
+| **Views**            | 30+      | Frontend, Admin, Auth templates với layouts                             |
+| **Middleware**       | 6+       | Auth, CSRF, Admin, Encrypt, Guest, Verified                             |
+| **Guards**           | 2        | Web (users) và Admin (admins) authentication guards                     |
+| **Validation Rules** | 20+      | Custom validation cho forms và API endpoints                            |
+| **Database Tables**  | 12+      | Normalized schema với foreign key constraints                           |
+
+### **🔄 System Flow Diagrams:**
+
+**E-commerce Purchase Flow:**
+
+```mermaid
+graph TD
+    A[Browse Products] --> B[Select Product]
+    B --> C[Add to Cart]
+    C --> D{User Logged In?}
+    D -->|No| E[Session Cart]
+    D -->|Yes| F[Database Cart]
+    E --> G[Register/Login]
+    F --> H[View Cart]
+    G --> H
+    H --> I[Select Items]
+    I --> J[Checkout Form]
+    J --> K[Validate Data]
+    K --> L[Create Order]
+    L --> M[Order Confirmation]
+    M --> N[Admin Review]
+    N --> O[Order Processing]
+    O --> P[Delivery]
+```
+
+**Admin Management Flow:**
+
+```mermaid
+graph TD
+    A[Admin Login] --> B{Authentication}
+    B -->|Success| C[Admin Dashboard]
+    B -->|Fail| A
+    C --> D[Choose Management]
+    D --> E[User Management]
+    D --> F[Product Management]
+    D --> G[Order Management]
+    D --> H[Contact Management]
+
+    E --> E1[View Users]
+    E --> E2[Delete Users]
+    E --> E3[View User Details]
+
+    F --> F1[Create Product]
+    F --> F2[Edit Product]
+    F --> F3[Delete Product]
+    F --> F4[View Products]
+
+    G --> G1[View Orders]
+    G --> G2[Confirm Orders]
+    G --> G3[Reject Orders]
+    G --> G4[Update Status]
+
+    H --> H1[View Messages]
+    H --> H2[Respond to Contacts]
+```
+
+### **🚀 Advanced Technical Implementation:**
+
+**Real-time Cart Count Updates:**
+
+```javascript
+// Frontend JavaScript - Real-time cart updates
+function updateCartCount() {
+    fetch("/cart/count")
+        .then((response) => response.json())
+        .then((data) => {
+            document.getElementById("cartCount").textContent = data.count;
+        });
+}
+
+// Auto-update after cart operations
+document.addEventListener("cartUpdated", updateCartCount);
+```
+
+**Dynamic Address Selection:**
+
+```javascript
+// Location API integration
+async function loadDistricts(provinceId) {
+    const response = await fetch(`/api/districts/${provinceId}`);
+    const districts = await response.json();
+    updateSelectOptions("district", districts);
+}
+
+async function loadWards(districtId) {
+    const response = await fetch(`/api/wards/${districtId}`);
+    const wards = await response.json();
+    updateSelectOptions("ward", wards);
+}
+```
+
+**Order Status Tracking:**
+
+```php
+// Order tracking với timeline
+public function getOrderTimeline()
+{
+    $timeline = [];
+
+    $timeline[] = [
+        'status' => 'pending',
+        'label' => 'Đơn hàng đã được tạo',
+        'timestamp' => $this->created_at,
+        'completed' => true
+    ];
+
+    if ($this->status !== 'pending') {
+        $timeline[] = [
+            'status' => 'confirmed',
+            'label' => 'Đơn hàng đã được xác nhận',
+            'timestamp' => $this->updated_at,
+            'completed' => in_array($this->status, ['confirmed', 'preparing', 'ready', 'delivered'])
+        ];
+    }
+
+    // Add more timeline steps...
+
+    return $timeline;
+}
+```
 
 ### **🔮 Khả năng mở rộng:**
 
@@ -731,4 +1104,3 @@ Nếu bạn gặp vấn đề khi chạy dự án, vui lòng:
 </div>
 
 ---
-```
