@@ -5,7 +5,6 @@
 
 ---
 
-
 ## 📋 **THÔNG TIN DỰ ÁN**
 
 **🎯 Tên bài tập:** Website Bán Bánh Kem với Laravel Framework
@@ -44,16 +43,19 @@ Sweet Cake Shop là một ứng dụng web thương mại điện tử chuyên b
 
 ### **2. Ít nhất 03 đối tượng** ✅
 
-Dự án đã triển khai **6 đối tượng chính:**
+Dự án đã triển khai **9 đối tượng chính:**
 
 | Model         | File Path                  | Chức năng                          |
 | ------------- | -------------------------- | ---------------------------------- |
 | **User**      | `app/Models/User.php`      | Quản lý người dùng, authentication |
+| **Admin**     | `app/Models/Admin.php`     | Quản lý tài khoản admin            |
 | **Product**   | `app/Models/Product.php`   | Quản lý sản phẩm bánh kem          |
 | **Category**  | `app/Models/Category.php`  | Phân loại sản phẩm theo danh mục   |
 | **Cart**      | `app/Models/Cart.php`      | Giỏ hàng người dùng                |
 | **Order**     | `app/Models/Order.php`     | Đơn hàng                           |
 | **OrderItem** | `app/Models/OrderItem.php` | Chi tiết đơn hàng                  |
+| **Review**    | `app/Models/Review.php`    | Đánh giá sản phẩm                  |
+| **Contact**   | `app/Models/Contact.php`   | Liên hệ từ khách hàng              |
 
 ### **3. Chức năng định danh và xác thực (Laravel Breeze)** ✅
 
@@ -117,6 +119,62 @@ public function updateCart(Request $request) {
 -   **Read:** `OrderController@show` - Xem chi tiết đơn hàng
 -   **Update:** Cập nhật trạng thái đơn hàng
 -   **Tracking:** Theo dõi đơn hàng trong dashboard
+
+**CRUD cho Product (Admin):**
+
+-   **Create:** `AdminController@createProduct` - Thêm sản phẩm mới
+-   **Read:** `AdminController@products` - Danh sách sản phẩm
+-   **Update:** `AdminController@updateProduct` - Cập nhật sản phẩm
+-   **Delete:** `AdminController@deleteProduct` - Xóa sản phẩm
+
+```php
+// Tạo sản phẩm mới
+public function storeProduct(Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|numeric|min:1000',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+        'category_id' => 'required|integer|exists:categories,id',
+        'stock' => 'required|integer|min:0',
+    ]);
+
+    $imagePath = $request->file('image')->store('img', 'public');
+    Product::create([
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'image' => 'storage/' . $imagePath,
+        'category_id' => $request->category_id,
+        'stock' => $request->stock,
+        'is_featured' => true
+    ]);
+}
+```
+
+**CRUD cho Review (Đánh giá):**
+
+-   **Create:** `ReviewController@store` - Thêm đánh giá
+-   **Read:** Hiển thị trong trang sản phẩm
+-   **Delete:** `AdminController@deleteReview` - Admin xóa đánh giá
+
+```php
+// Thêm đánh giá sản phẩm
+public function store(Request $request) {
+    $request->validate([
+        'product_id' => 'required|exists:products,id',
+        'rating' => 'required|integer|min:1|max:5',
+        'comment' => 'required|string',
+    ]);
+
+    Review::create([
+        'user_id' => auth()->id(),
+        'product_id' => $request->product_id,
+        'rating' => $request->rating,
+        'comment' => $request->comment,
+    ]);
+}
+```
 
 ### **5. Các yêu cầu Security** ✅
 
@@ -250,16 +308,19 @@ Schema::create('products', function (Blueprint $table) {
 
 ## 🛠️ **CÔNG NGHỆ SỬ DỤNG**
 
-| Loại               | Công nghệ          | Phiên bản | Mô tả                 |
-| ------------------ | ------------------ | --------- | --------------------- |
-| **Backend**        | Laravel            | 12.x      | PHP Framework chính   |
-| **Authentication** | Laravel Breeze     | 2.3+      | Hệ thống xác thực     |
-| **Database**       | MySQL              | 8.0+      | Cơ sở dữ liệu         |
-| **Frontend**       | Blade Templates    | -         | Template engine       |
-| **CSS Framework**  | TailwindCSS        | 3.x       | Styling và responsive |
-| **Icons**          | RemixIcon          | 4.6.0     | Bộ icon UI            |
-| **Session**        | Laravel Session    | -         | Quản lý phiên         |
-| **Validation**     | Laravel Validation | -         | Kiểm tra dữ liệu      |
+| Loại               | Công nghệ          | Phiên bản | Mô tả                  |
+| ------------------ | ------------------ | --------- | ---------------------- |
+| **Backend**        | Laravel            | 12.x      | PHP Framework chính    |
+| **Authentication** | Laravel Breeze     | 2.3+      | Hệ thống xác thực      |
+| **Database**       | MySQL/SQLite       | 8.0+      | Cơ sở dữ liệu          |
+| **Frontend**       | Blade Templates    | -         | Template engine        |
+| **CSS Framework**  | TailwindCSS        | 3.x       | Styling và responsive  |
+| **Icons**          | RemixIcon          | 4.6.0     | Bộ icon UI             |
+| **JavaScript**     | Vanilla JS         | ES6+      | Frontend interactions  |
+| **File Storage**   | Laravel Storage    | -         | Upload và quản lý file |
+| **Session**        | Laravel Session    | -         | Quản lý phiên          |
+| **Validation**     | Laravel Validation | -         | Kiểm tra dữ liệu       |
+| **Security**       | Laravel Security   | -         | CSRF, XSS protection   |
 
 ---
 
@@ -275,23 +336,36 @@ Category (1) ←→ (n) Product
 
 ### **Controllers:**
 
+**Frontend Controllers:**
+
 -   `HomeController` - Trang chủ và danh sách sản phẩm
 -   `ProductController` - Chi tiết sản phẩm
 -   `CategoryController` - Danh mục sản phẩm
 -   `CartController` - Quản lý giỏ hàng (CRUD)
 -   `OrderController` - Quản lý đơn hàng (CRUD)
 -   `UserDashboardController` - Dashboard người dùng
+-   `ReviewController` - Đánh giá sản phẩm
+-   `ContactController` - Liên hệ từ khách hàng
+-   `PaymentController` - Xử lý thanh toán (demo)
 -   `Auth/*` - Các controller xác thực (Laravel Breeze)
+
+**Admin Controllers:**
+
+-   `Admin\AdminController` - Quản lý toàn bộ admin panel
+-   `Admin\Auth\LoginController` - Đăng nhập admin riêng biệt
 
 ### **Database Schema:**
 
 ```sql
-users (id, name, email, password, phone, address, role, timestamps)
+users (id, name, email, password, phone, address, is_admin, timestamps)
+admins (id, name, email, password, timestamps)
 categories (id, name, description, image, slug, timestamps)
-products (id, name, description, price, image, category_id, stock, is_featured, timestamps)
+products (id, name, description, detailed_description, price, image, category_id, stock, is_featured, is_active, timestamps)
 carts (id, user_id, product_id, quantity, timestamps)
-orders (id, user_id, order_number, total_amount, status, customer_*, delivery_date, timestamps)
-order_items (id, order_id, product_name, product_price, quantity, total_price, timestamps)
+orders (id, user_id, order_number, total_amount, status, payment_method, payment_status, customer_*, delivery_date, delivery_time, timestamps)
+order_items (id, order_id, product_name, product_price, product_image, quantity, total_price, timestamps)
+reviews (id, user_id, product_id, rating, comment, timestamps)
+contacts (id, name, email, phone, message, timestamps)
 ```
 
 ---
@@ -306,15 +380,29 @@ order_items (id, order_id, product_name, product_price, quantity, total_price, t
 -   🛒 **Shopping Cart**: Thêm/xóa/cập nhật sản phẩm
 -   💳 **Checkout**: Form đặt hàng với validation
 -   👤 **User Dashboard**: Quản lý đơn hàng cá nhân
+-   ⭐ **Product Reviews**: Đánh giá và bình luận sản phẩm
+-   📞 **Contact Form**: Liên hệ với cửa hàng
+-   🔍 **Order Tracking**: Theo dõi trạng thái đơn hàng
+
+### **Admin Panel Features:**
+
+-   🔐 **Admin Authentication**: Hệ thống đăng nhập admin riêng
+-   📊 **Dashboard**: Tổng quan số liệu (sản phẩm, đơn hàng, user)
+-   👥 **User Management**: Quản lý tài khoản người dùng
+-   📦 **Product Management**: CRUD sản phẩm với upload hình ảnh
+-   🛒 **Order Management**: Xác nhận/từ chối/cập nhật trạng thái đơn hàng
+-   ⭐ **Review Management**: Xóa đánh giá không phù hợp
+-   📧 **Contact Management**: Xem và quản lý tin nhắn từ khách hàng
 
 ### **Backend Features:**
 
--   🔐 **Authentication**: Đăng ký/đăng nhập với Laravel Breeze
+-   🔐 **Dual Authentication**: User & Admin guards riêng biệt
 -   🛒 **Cart Management**: Lưu trữ trong database và session
 -   📦 **Order Processing**: Xử lý đơn hàng với multiple status
--   💰 **Payment Methods**: COD, Bank Transfer
--   📧 **Notifications**: Hệ thống thông báo đơn hàng
--   📊 **Dashboard**: Theo dõi đơn hàng cho user
+-   💰 **Payment Methods**: COD, Bank Transfer (và demo MoMo/VNPay)
+-   📧 **Contact System**: Thu thập và quản lý liên hệ
+-   📊 **Dashboard Analytics**: Thống kê cho admin
+-   🔄 **Order Status Flow**: pending → confirmed → shipping → delivered
 
 ### **Security Features:**
 
@@ -322,8 +410,42 @@ order_items (id, order_id, product_name, product_price, quantity, total_price, t
 -   ✅ **Input Validation**: Server-side validation
 -   🛡️ **XSS Protection**: Blade templating auto-escape
 -   🔐 **SQL Injection Prevention**: Eloquent ORM
--   👤 **Authentication**: Session-based auth
+-   👤 **Authentication**: Session-based auth với multi-guard
 -   🔑 **Authorization**: Middleware và permission checks
+-   🛡️ **Admin Guard**: Hệ thống xác thực admin riêng biệt
+-   📧 **Email Verification**: Xác thực email (tùy chọn)
+-   🔒 **Password Security**: Hash với bcrypt
+
+**Admin Authorization Example:**
+
+```php
+// Config auth guards
+'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+    'admin' => [
+        'driver' => 'session',
+        'provider' => 'admins',
+    ],
+],
+
+// Admin middleware protection
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/users', [AdminController::class, 'users']);
+    Route::get('/orders', [AdminController::class, 'orders']);
+});
+
+// Admin login controller
+public function login(Request $request) {
+    if (Auth::guard('admin')->attempt($credentials)) {
+        return redirect('/admin/dashboard');
+    }
+    return back()->with('error', 'Sai thông tin đăng nhập admin!');
+}
+```
 
 ---
 
@@ -414,11 +536,26 @@ php artisan serve
 ### **Authentication Routes:**
 
 ```php
-GET  /login           - Trang đăng nhập
-POST /login           - Xử lý đăng nhập
+GET  /login           - Trang đăng nhập user
+POST /login           - Xử lý đăng nhập user
 GET  /register        - Trang đăng ký
 POST /register        - Xử lý đăng ký
-POST /logout          - Đăng xuất
+POST /logout          - Đăng xuất user
+GET  /forgot-password - Quên mật khẩu
+POST /reset-password  - Reset mật khẩu
+```
+
+### **Admin Routes:**
+
+```php
+GET  /admin/login           - Trang đăng nhập admin
+POST /admin/login           - Xử lý đăng nhập admin
+POST /admin/logout          - Đăng xuất admin
+GET  /admin/dashboard       - Dashboard admin
+GET  /admin/users           - Quản lý user
+GET  /admin/orders          - Quản lý đơn hàng
+GET  /admin/products        - Quản lý sản phẩm
+GET  /admin/contacts        - Quản lý liên hệ
 ```
 
 ### **Cart Management (Auth Required):**
@@ -428,6 +565,7 @@ POST   /cart/add         - Thêm sản phẩm vào giỏ
 GET    /cart             - Xem giỏ hàng
 PUT    /cart/update      - Cập nhật số lượng
 DELETE /cart/{id}        - Xóa sản phẩm
+POST   /cart/delete-multiple - Xóa nhiều sản phẩm
 GET    /cart/count       - Đếm số sản phẩm
 ```
 
@@ -438,6 +576,15 @@ GET  /checkout           - Trang thanh toán
 POST /order              - Tạo đơn hàng
 GET  /order/success/{id} - Trang thành công
 GET  /order/{id}         - Chi tiết đơn hàng
+GET  /order-tracking     - Theo dõi đơn hàng
+POST /order/{id}/cancel  - Hủy đơn hàng
+```
+
+### **Review & Contact Routes:**
+
+```php
+POST /reviews            - Thêm đánh giá sản phẩm
+POST /contact            - Gửi liên hệ
 ```
 
 ### **Public Routes:**
@@ -447,7 +594,6 @@ GET /                    - Trang chủ
 GET /product/{id}        - Chi tiết sản phẩm
 GET /category/{slug}     - Sản phẩm theo danh mục
 ```
-
 
 ---
 
@@ -467,34 +613,122 @@ APP_ENV=production
 APP_DEBUG=false
 ```
 
-## 📊 **Tổng kết**
+```
 
-### **Hoàn thành yêu cầu bài tập:**
+## 📊 **TỔNG KẾT VÀ ĐÁNH GIÁ DỰ ÁN**
 
-✅ **Laravel Framework** - Laravel 12.x với cấu trúc MVC
-✅ **03+ Objects** - User, Product, Cart, Order, Category, OrderItem
-✅ **Authentication** - Laravel Breeze với đầy đủ tính năng
-✅ **CRUD Operations** - Cart và Order management hoàn chỉnh
-✅ **Security Features** - CSRF, XSS, Validation, Auth, Session
-✅ **Eloquent Migration** - Database structure hoàn chỉnh với relationships
-✅ **README Documentation** - Chi tiết và comprehensive
+### **✅ Hoàn thành yêu cầu bài tập:**
 
-### **Điểm mạnh của dự án:**
+| Yêu cầu                  | Trạng thái    | Mô tả chi tiết                                                                    |
+| ------------------------ | ------------- | --------------------------------------------------------------------------------- |
+| **Laravel Framework**    | ✅ HOÀN THÀNH | Laravel 12.x với cấu trúc MVC hoàn chỉnh                                          |
+| **03+ Objects**          | ✅ VƯỢT MỨC   | 9 Models: User, Admin, Product, Category, Cart, Order, OrderItem, Review, Contact |
+| **Authentication**       | ✅ HOÀN THÀNH | Laravel Breeze + Admin Guard riêng biệt                                           |
+| **CRUD Operations**      | ✅ VƯỢT MỨC   | Cart, Order, Product, Review với đầy đủ CRUD                                      |
+| **Security Features**    | ✅ HOÀN THÀNH | CSRF, XSS, Validation, Auth, SQL Injection Prevention                             |
+| **Eloquent Migration**   | ✅ HOÀN THÀNH | 12+ migrations với relationships phức tạp                                         |
+| **README Documentation** | ✅ HOÀN THÀNH | Chi tiết và comprehensive với code examples                                       |
 
--   🏗️ **Clean Architecture**: MVC structure rõ ràng
--   🔒 **Security First**: Comprehensive security measures
--   🎨 **Modern UI**: Responsive design với TailwindCSS
--   📱 **User Experience**: Intuitive shopping flow
--   🛡️ **Error Handling**: Proper validation và error messages
--   📝 **Code Quality**: Well-documented và maintainable
+### **🌟 Điểm nổi bật của dự án:**
+
+**1. Kiến trúc hệ thống:**
+
+-   🏗️ **Clean MVC Architecture**: Tách biệt rõ ràng Model-View-Controller
+-   🔐 **Multi-Guard Authentication**: User và Admin guards riêng biệt
+-   � **Responsive Design**: UI hiện đại với TailwindCSS
+-   🛡️ **Security First**: Áp dụng đầy đủ các biện pháp bảo mật
+
+**2. Tính năng phong phú:**
+
+-   🛒 **E-commerce Complete**: Từ browse sản phẩm đến checkout
+-   👥 **User Management**: Dashboard cá nhân với order tracking
+-   👨‍💼 **Admin Panel**: Quản lý toàn diện sản phẩm, đơn hàng, user
+-   ⭐ **Review System**: Đánh giá và feedback sản phẩm
+-   📞 **Contact System**: Thu thập và quản lý liên hệ khách hàng
+
+**3. Chất lượng code:**
+
+-   📝 **Well Documented**: Comment rõ ràng và README chi tiết
+-   🔒 **Security Compliant**: Tuân thủ OWASP security guidelines
+-   🧪 **Error Handling**: Validation và exception handling đầy đủ
+-   � **Database Design**: Normalized với relationships hợp lý
+
+**4. User Experience:**
+
+-   🎨 **Modern UI/UX**: Giao diện thân thiện và intuitive
+-   📱 **Mobile First**: Responsive trên mọi thiết bị
+-   🚀 **Performance**: Optimized queries và caching
+-   ♿ **Accessibility**: Semantic HTML và proper forms
+
+### **📈 Số liệu thống kê:**
+
+| Thành phần      | Số lượng | Mô tả                                                                   |
+| --------------- | -------- | ----------------------------------------------------------------------- |
+| **Models**      | 9        | User, Admin, Product, Category, Cart, Order, OrderItem, Review, Contact |
+| **Controllers** | 12+      | Frontend + Admin + Auth controllers                                     |
+| **Migrations**  | 12+      | Database structure hoàn chỉnh                                           |
+| **Routes**      | 30+      | API endpoints cho tất cả features                                       |
+| **Views**       | 25+      | Blade templates với layouts                                             |
+| **Middleware**  | 5+       | Auth, CSRF, Admin protection                                            |
+
+### **🔮 Khả năng mở rộng:**
+
+**Tính năng có thể bổ sung:**
+
+-   💳 **Payment Gateway**: Tích hợp thực tế MoMo, VNPay, PayPal
+-   � **Email Notifications**: Thông báo qua email cho các sự kiện
+-   📊 **Analytics**: Dashboard analytics chi tiết hơn
+-   🔍 **Search & Filter**: Tìm kiếm và lọc sản phẩm nâng cao
+-   📱 **Mobile App**: API cho mobile application
+-   🌐 **Multi-language**: Hỗ trợ đa ngôn ngữ
+-   📦 **Inventory Management**: Quản lý kho chi tiết hơn
+-   🎁 **Coupon System**: Hệ thống mã giảm giá
+-   📈 **Reporting**: Báo cáo doanh thu và analytics
 
 ---
 
-## 📞 **THÔNG TIN LIÊN HỆ**
+## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
-**👤 Developer:** Nguyễn Quốc Thành
-**📧 Email:** [23010038@st.phenikaa-uni.edu.vn]
+### **👤 Thông tin Developer:**
+
+**Tên:** Nguyễn Quốc Thành
+**MSSV:** 23010038
+**Lớp:** Lập trình Web - Bài tập giữa kỳ
+**📧 Email:** [23010038@st.phenikaa-uni.edu.vn](mailto:23010038@st.phenikaa-uni.edu.vn)
 **🔗 GitHub:** [https://github.com/nqthanhhh](https://github.com/nqthanhhh)
-**📱 Phone:** [0862398217]
+**📱 Phone:** [0862398217](tel:0862398217)
+
+### **🔗 Links quan trọng:**
+
+-   **Repository:** [https://github.com/nqthanhhh/Cake_shop.git](https://github.com/nqthanhhh/Cake_shop.git)
+-   **Demo:** Liên hệ để được cung cấp link demo
+-   **Documentation:** README.md này chứa đầy đủ thông tin
+
+### **📚 Tài liệu tham khảo:**
+
+-   [Laravel Documentation](https://laravel.com/docs)
+-   [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze)
+-   [TailwindCSS](https://tailwindcss.com/docs)
+-   [MySQL Documentation](https://dev.mysql.com/doc/)
+
+### **🆘 Hỗ trợ và báo lỗi:**
+
+Nếu bạn gặp vấn đề khi chạy dự án, vui lòng:
+
+1. Kiểm tra lại các bước cài đặt trong README
+2. Đảm bảo đã cài đặt đúng version PHP, Composer, Node.js
+3. Kiểm tra file `.env` đã được cấu hình đúng
+4. Liên hệ qua email hoặc GitHub Issues
+
+**Made with ❤️ in Vietnam 🇻🇳**
 
 ---
+
+<div align="center">
+  <strong>🎂 Sweet Cake Shop - Where Every Bite Tells a Story 🎂</strong>
+  <br>
+  <em>© 2025 Nguyễn Quốc Thành. All rights reserved.</em>
+</div>
+
+---
+```
