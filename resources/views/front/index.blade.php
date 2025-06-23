@@ -45,54 +45,98 @@
       </div>
     </section>
     <!-- Featured Products Section -->
-    <section id="products" class="py-16">
+    <section id="products" class="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-4">Sản Phẩm Nổi Bật</h2>
-        <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
-          Khám phá những chiếc bánh kem được yêu thích nhất tại Sweet Cake, được
-          làm từ những nguyên liệu tươi ngon nhất
-        </p>
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-gray-800 mb-4">Sản Phẩm Nổi Bật</h2>
+          <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto mb-6"></div>
+          <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
+            Khám phá những chiếc bánh kem được yêu thích nhất tại Sweet Cake, được
+            làm từ những nguyên liệu tươi ngon nhất
+          </p>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    @foreach($products as $product)
-    <div class="product-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
-        <div class="h-100 w-full overflow-hidden">
-            <img
+          @foreach($products as $product)
+          <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
+            <!-- Product Image -->
+            <div class="relative h-64 w-full overflow-hidden">
+              <img
                 src="{{ asset($product->image) }}"
                 alt="{{ $product->name }}"
-                class="w-full h-full object-cover object-top"
-            />
-            <a href="{{ route('product', $product->id) }}" class="view-details-btn">
-            Xem chi tiết
-            </a>
-        </div>
-        <div class="p-6">
-            <h3 class="text-xl font-bold mb-2">{{ $product->name }}</h3>
-            <p class="text-gray-600 mb-4">
-                {{ $product->description }}
-            </p>
-            <div class="flex justify-between items-center">
-                <span class="text-primary font-bold text-xl">{{ number_format($product->price) }}đ</span>
-                <button
-                    class="add-to-cart bg-primary text-white px-4 py-2 rounded-button hover:bg-opacity-90 transition-colors whitespace-nowrap"
-                    data-product-id="{{ $product->id }}"
-                    data-product-name="{{ $product->name }}"
-                    data-product-price="{{ $product->price }}"
-                    data-product-image="{{ $product->image }}"
-                >
-                    Thêm vào giỏ
-                </button>
-            </div>
-        </div>
-    </div>
-    @endforeach
-</div>
+                class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-        <div class="text-center mt-12">
-          <button
-            class="bg-white border border-primary text-primary px-6 py-3 rounded-button text-lg font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
-          >
+              <!-- View Details Button -->
+              <a href="{{ route('product', $product->id) }}"
+                 class="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <span class="bg-white text-gray-800 px-6 py-3 rounded-full font-semibold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <i class="ri-eye-line mr-2"></i>Xem chi tiết
+                </span>
+              </a>
+
+              <!-- Sale Badge (if needed) -->
+              <div class="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold opacity-0">
+                -20%
+              </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-primary transition-colors duration-300">
+                {{ $product->name }}
+              </h3>
+              <p class="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-2">
+                {{ $product->description }}
+              </p>
+
+              <!-- Rating -->
+              <div class="flex items-center mb-4">
+                <div class="flex text-yellow-400 text-sm mr-2">
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                </div>
+                <span class="text-gray-500 text-sm">(4.9)</span>
+              </div>
+
+              <!-- Price and Add to Cart -->
+              <div class="flex justify-between items-center">
+                <div class="flex flex-col">
+                  <span class="text-2xl font-bold text-primary">{{ number_format($product->price) }}đ</span>
+                  <span class="text-sm text-gray-500 line-through opacity-0">{{ number_format($product->price * 1.2) }}đ</span>
+                </div>
+
+                <button
+                  class="add-to-cart group/btn bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 font-semibold"
+                  data-product-id="{{ $product->id }}"
+                  data-product-name="{{ $product->name }}"
+                  data-product-price="{{ $product->price }}"
+                  data-product-image="{{ $product->image }}"
+                >
+                  <i class="ri-shopping-cart-line mr-2 group-hover/btn:animate-bounce"></i>
+                  <span class="hidden sm:inline">Thêm vào giỏ</span>
+                  <span class="sm:hidden">+</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Hover Effect Border -->
+            <div class="absolute inset-0 border-2 border-primary rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+          </div>
+          @endforeach
+        </div>
+
+        <!-- View All Products Button -->
+        <div class="text-center mt-16">
+          <a href="#" class="inline-flex items-center bg-white border-2 border-primary text-primary px-8 py-4 rounded-xl text-lg font-semibold hover:bg-primary hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <i class="ri-grid-line mr-3"></i>
             Xem tất cả sản phẩm
-          </button>
+            <i class="ri-arrow-right-line ml-3"></i>
+          </a>
         </div>
       </div>
     </section>
