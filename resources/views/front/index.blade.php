@@ -93,14 +93,34 @@
 
               <!-- Rating -->
               <div class="flex items-center mb-4">
-                <div class="flex text-yellow-400 text-sm mr-2">
-                  <i class="ri-star-fill"></i>
-                  <i class="ri-star-fill"></i>
-                  <i class="ri-star-fill"></i>
-                  <i class="ri-star-fill"></i>
-                  <i class="ri-star-fill"></i>
-                </div>
-                <span class="text-gray-500 text-sm">(4.9)</span>
+                @if($product->reviews && $product->reviews->count() > 0)
+                  @php
+                    $averageRating = $product->reviews->avg('rating');
+                    $reviewCount = $product->reviews->count();
+                    $fullStars = floor($averageRating);
+                    $hasHalfStar = ($averageRating - $fullStars) >= 0.5;
+                  @endphp
+                  <div class="flex text-yellow-400 text-sm mr-2">
+                    @for($i = 1; $i <= 5; $i++)
+                      @if($i <= $fullStars)
+                        <i class="ri-star-fill"></i>
+                      @elseif($i == $fullStars + 1 && $hasHalfStar)
+                        <i class="ri-star-half-fill"></i>
+                      @else
+                        <i class="ri-star-line text-gray-300"></i>
+                      @endif
+                    @endfor
+                  </div>
+                  <span class="text-gray-500 text-sm">({{ number_format($averageRating, 1) }})</span>
+                  <span class="text-gray-400 text-xs ml-1">• {{ $reviewCount }} đánh giá</span>
+                @else
+                  <div class="flex text-gray-300 text-sm mr-2">
+                    @for($i = 1; $i <= 5; $i++)
+                      <i class="ri-star-line"></i>
+                    @endfor
+                  </div>
+                  <span class="text-gray-500 text-sm">(Chưa có đánh giá)</span>
+                @endif
               </div>
 
               <!-- Price and Add to Cart -->
@@ -410,7 +430,7 @@
                   <div class="ml-4">
                     <h4 class="font-bold">Địa chỉ</h4>
                     <p class="text-gray-600">
-                      phenikaa, 167 Hoàng Quốc Việt, Cầu Giấy, Hà Nội
+                      abc
                     </p>
                   </div>
                 </div>
@@ -462,12 +482,6 @@
                     class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors"
                   >
                     <i class="ri-instagram-line"></i>
-                  </a>
-                  <a
-                    href="#"
-                    class="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-full text-gray-600 hover:bg-primary hover:text-white transition-colors"
-                  >
-                    <i class="ri-youtube-line"></i>
                   </a>
                   <a
                     href="#"

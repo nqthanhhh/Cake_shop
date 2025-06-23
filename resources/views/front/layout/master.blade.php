@@ -244,14 +244,14 @@
               </li>
               <li>
                 <a
-                  href="#"
+                  href="{{ route('terms') }}"
                   class="text-gray-400 hover:text-primary transition-colors"
                   >Điều khoản sử dụng</a
                 >
               </li>
               <li>
                 <a
-                  href="#"
+                  href="{{ route('privacy') }}"
                   class="text-gray-400 hover:text-primary transition-colors"
                   >Chính sách bảo mật</a
                 >
@@ -281,7 +281,7 @@
               <li class="flex items-start">
                 <i class="ri-map-pin-line mt-1 mr-3"></i>
                 <span class="text-gray-400"
-                  >123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh</span
+                  >abc</span
                 >
               </li>
               <li class="flex items-start">

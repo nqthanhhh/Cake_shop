@@ -11,8 +11,18 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all(); // Lấy tất cả danh mục
-        $products = Product::where('is_featured', true)->get(); // Lấy sản phẩm nổi bật
+        $products = Product::with('reviews')->where('is_featured', true)->get(); // Lấy sản phẩm nổi bật cùng với reviews
 
         return view('front.index', compact('categories', 'products'));
+    }
+
+    public function terms()
+    {
+        return view('front.terms');
+    }
+
+    public function privacy()
+    {
+        return view('front.privacy');
     }
 }

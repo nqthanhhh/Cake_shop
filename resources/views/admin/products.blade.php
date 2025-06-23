@@ -30,7 +30,10 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ number_format($product->price) }}đ</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $product->category->name ?? '' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mr-2" title="Chỉnh sửa">
+                            <a href="{{ route('admin.products.show', $product->id) }}" class="text-blue-500 hover:text-green-700 mr-2" title="Xem">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ route('admin.products.edit', $product->id) }}" class="text-green-500 hover:text-blue-700 mr-2" title="Chỉnh sửa">
                                 <i class="fas fa-pen"></i>
                             </a>
                             <form action="{{ route('admin.products.delete', $product->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Bạn có chắc chắn muốn xoá sản phẩm này?');">
@@ -40,6 +43,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
+                            <a href=""></a>
                         </td>
                     </tr>
                     @endforeach

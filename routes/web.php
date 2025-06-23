@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/order/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::post('/order/{orderId}/confirm-cancel', [OrderController::class, 'confirmCancelOrder'])->name('order.confirmCancel');
     Route::patch('/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('order.shipping');
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store')->middleware('auth');
 });
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
 
@@ -71,7 +71,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/products/create', [\App\Http\Controllers\Admin\AdminController::class, 'createProduct'])->name('admin.products.create');
         Route::post('/products', [\App\Http\Controllers\Admin\AdminController::class, 'storeProduct'])->name('admin.products.store');
         Route::get('/products/{id}/edit', [\App\Http\Controllers\Admin\AdminController::class, 'editProduct'])->name('admin.products.edit');
+        Route::get('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'showProduct'])->name('admin.products.show');
         Route::put('/products/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'updateProduct'])->name('admin.products.update');
+        Route::delete('/reviews/{id}', [\App\Http\Controllers\Admin\AdminController::class, 'deleteReview'])->name('admin.reviews.delete');
         Route::post('/admin/order/{id}/shipping', [OrderController::class, 'updateShippingStatus'])->name('admin.user.order_shipping');
         Route::get('/contacts', [\App\Http\Controllers\Admin\AdminController::class, 'contacts'])->name('admin.contacts');
     });
@@ -81,5 +83,7 @@ Route::prefix('admin')->group(function () {
 Route::redirect('/admin', '/admin/login');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/terms-of-service', [HomeController::class, 'terms'])->name('terms');
+Route::get('/privacy-policy', [HomeController::class, 'privacy'])->name('privacy');
 
 require __DIR__.'/auth.php';

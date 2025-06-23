@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Contact;
+use App\Models\Review;
 
 class AdminController extends Controller
 {
@@ -59,7 +60,8 @@ class AdminController extends Controller
     {
         $user = \App\Models\User::findOrFail($id);
         $orders = \App\Models\Order::where('user_id', $id)->latest()->get();
-        return view('admin.user.user_detail', compact('user', 'orders'));
+        $reviews = \App\Models\Review::where('user_id', $id)->with('product')->latest()->get();
+        return view('admin.user.user_detail', compact('user', 'orders', 'reviews'));
     }
     public function userOrder($orderId)
     {
@@ -155,6 +157,19 @@ class AdminController extends Controller
         $product->stock = $request->stock;
         $product->save();
         return redirect()->route('admin.products')->with('success', 'Cập nhật sản phẩm thành công!');
+    }
+
+    public function showProduct($id)
+    {
+        $product = Product::with('category', 'reviews.user')->findOrFail($id);
+        return view('admin.product.show', compact('product'));
+    }
+
+    public function deleteReview($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->delete();
+        return redirect()->back()->with('success', 'Đã xoá đánh giá thành công!');
     }
 
     public function contacts()
