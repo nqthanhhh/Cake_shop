@@ -794,20 +794,229 @@ public function getOrderTimeline()
 
 ---
 
+// ...existing code...
+
 ## 📌 **MÔ TẢ DỰ ÁN**
+
+<div align="center">
+  <img src="screenshots/homepage-banner.png" alt="Sweet Cake Shop Homepage" width="800">
+  <p><em>Trang chủ Sweet Cake Shop với banner chào mừng</em></p>
+</div>
 
 <table>
 <tr>
 <td width="50%">
-<img src="screenshots/product-listing.png" alt="Product Listing" width="100%">
-<p align="center"><em>Danh sách sản phẩm bánh kem</em></p>
+<img src="screenshots/product-grid.png" alt="Product Grid" width="100%">
+<p align="center"><em>Lưới sản phẩm bánh kem nổi bật</em></p>
 </td>
 <td width="50%">
-<img src="screenshots/product_1.png" alt="Product Detail" width="100%">
-<p align="center"><em>Chi tiết sản phẩm với reviews</em></p>
+<img src="screenshots/product-detail-page.png" alt="Product Detail" width="100%">
+<p align="center"><em>Trang chi tiết sản phẩm với đánh giá</em></p>
 </td>
 </tr>
 </table>
+
+---
+
+## 🎨 **GIAO DIỆN NGƯỜI DÙNG**
+
+### **Trang chủ và Navigation:**
+
+<div align="center">
+  <img src="screenshots/navbar-menu.png" alt="Navigation Bar" width="800">
+  <p><em>Thanh navigation với menu danh mục</em></p>
+</div>
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/category.png" alt="Category" width="100%">
+<p align="center"><em>Danh mục sản phẩm</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/product-listing.png" alt="Featured Products" width="100%">
+<p align="center"><em>Sản phẩm nổi bật</em></p>
+</td>
+</tr>
+</table>
+
+### **Trang chi tiết sản phẩm:**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/product-info.png" alt="Product Info" width="100%">
+<p align="center"><em>Thông tin và mô tả sản phẩm</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/review-form.png" alt="Review Form" width="100%">
+<p align="center"><em>Form thêm đánh giá</em></p>
+</td>
+</tr>
+</table>
+
+---
+
+## 🛒 **HỆ THỐNG GIỎ HÀNG & THANH TOÁN**
+
+### **Giỏ hàng:**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/cart-1.png" alt="Cart Items" width="100%">
+<p align="center"><em>Giỏ hàng trống</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/cart-items.png" alt="Cart Summary" width="100%">
+<p align="center"><em>Danh sách sản phẩm</em></p>
+</td>
+</tr>
+</table>
+
+### **Trang thanh toán:**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/checkout.png" alt="checkout" width="100%">
+<p align="center"><em>Trang checkout với form thông tin giao hàng</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/checkout-1.png" alt="checkout-1" width="100%">
+<p align="center"><em>Trang dặt hàng thành công</em></p>
+</td>
+</tr>
+</table>
+
+---
+
+## 👤 **AUTHENTICATION & USER DASHBOARD**
+
+### **Đăng nhập & Đăng ký:**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/login.png" alt="Login Form" width="100%">
+<p align="center"><em>Form đăng nhập người dùng</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/register.png" alt="Register Form" width="100%">
+<p align="center"><em>Form đăng ký tài khoản mới</em></p>
+</td>
+</tr>
+</table>
+
+### **Dashboard người dùng:**
+
+<div align="center">
+  <img src="screenshots/dashboard.png" alt="User Dashboard" width="800">
+  <p><em>Dashboard cá nhân với thông tin tài khoản</em></p>
+</div>
+
+<table>
+<tr>
+<td width="33%">
+<img src="screenshots/order.png" alt="Order History" width="100%">
+<p align="center"><em>Theo dõi đơn hàng</em></p>
+</td>
+<td width="33%">
+<img src="screenshots/profile-edit.png" alt="Profile Settings" width="100%">
+<p align="center"><em>Cài đặt thông tin cá nhân</em></p>
+</td>
+<td width="33%">
+<img src="screenshots/order-detail.png" alt="Order Details" width="100%">
+<p align="center"><em>Chi tiết đơn hàng</em></p>
+</td>
+</tr>
+</table>
+
+---
+
+## 👨‍💼 **ADMIN PANEL**
+
+### **Admin Dashboard:**
+
+<div align="center">
+  <img src="screenshots/admin-dashboard-main.png" alt="Admin Dashboard" width="800">
+  <p><em>Dashboard admin với thống kê tổng quan</em></p>
+</div>
+
+<!-- <table>
+<tr>
+<td width="33%">
+<img src="screenshots/admin-stats-cards.png" alt="Admin Stats" width="100%">
+<p align="center"><em>Thẻ thống kê nhanh</em></p>
+</td>
+<td width="33%">
+<img src="screenshots/sales-chart-admin.png" alt="Sales Chart" width="100%">
+<p align="center"><em>Biểu đồ doanh thu</em></p>
+</td>
+<td width="33%">
+<img src="screenshots/recent-orders-admin.png" alt="Recent Orders" width="100%">
+<p align="center"><em>Đơn hàng gần đây</em></p>
+</td>
+</tr>
+</table> -->
+
+### **Quản lý sản phẩm:**
+
+<div align="center">
+  <img src="screenshots/admin-products-list.png" alt="Admin Products List" width="800">
+  <p><em>Danh sách sản phẩm trong admin panel</em></p>
+</div>
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/admin-add-product.png" alt="Add Product Form" width="100%">
+<p align="center"><em>Form thêm sản phẩm mới</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/admin-check-product.png" alt="Check Product Form" width="100%">
+<p align="center"><em>Form chỉnh sửa sản phẩm</em></p>
+</td>
+</tr>
+</table>
+
+### **Quản lý đơn hàng:**
+
+<table>
+<tr>
+<td width="50%">
+<img src="screenshots/admin-order-details.png" alt="Admin Order Details" width="100%">
+<p align="center"><em>Chi tiết đơn hàng trong admin</em></p>
+</td>
+<td width="50%">
+<img src="screenshots/admin-order-list.png" alt="Order List" width="100%">
+<p align="center"><em>Danh sát đơn hàng</em></p>
+</td>
+</tr>
+</table>
+
+### **Quản lý người dùng:**
+
+<div align="center">
+  <img src="screenshots/admin-users-list.png" alt="Users Management" width="800">
+  <p><em>Danh sách người dùng và quản lý tài khoản</em></p>
+</div>
+
+<div align="center">
+  <img src="screenshots/admin-user.png" alt="Users" width="800">
+  <p><em>Chi tiết user</em></p>
+</div>
+
+---
+
+## 📞 **CONTACT & SUPPORT**
+
+<div align="center">
+  <img src="screenshots/contact-page.png" alt="Contact Page" width="800">
+  <p><em>Liên hệ với form gửi tin nhắn</em></p>
+</div>
+
+---
 
 ## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
