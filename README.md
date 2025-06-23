@@ -1,7 +1,5 @@
-﻿<p align="center">
   <strong>🎂 Sweet Cake Shop - Made with ❤️ using Laravel</strong><br>
   <em>Bài tập giữa kỳ - Lập trình Web</em>
-</p>
 
 ---
 
@@ -625,7 +623,6 @@ contacts (id, name, email, phone, message, timestamps)
 
 -   🏠 **Trang chủ**: Hiển thị danh mục và sản phẩm nổi bật
 -   🛍️ **Catalog**: Duyệt sản phẩm theo danh mục
--   📱 **Responsive Design**: Tối ưu mobile và desktop
 -   🛒 **Shopping Cart**: Thêm/xóa/cập nhật sản phẩm
 -   💳 **Checkout**: Form đặt hàng với validation
 -   👤 **User Dashboard**: Quản lý đơn hàng cá nhân
@@ -662,7 +659,6 @@ contacts (id, name, email, phone, message, timestamps)
 -   👤 **Authentication**: Session-based auth với multi-guard
 -   🔑 **Authorization**: Middleware và permission checks
 -   🛡️ **Admin Guard**: Hệ thống xác thực admin riêng biệt
--   📧 **Email Verification**: Xác thực email (tùy chọn)
 -   🔒 **Password Security**: Hash với bcrypt
 
 **Admin Authorization Example:**
@@ -1044,6 +1040,7 @@ public function getOrderTimeline()
 }
 ```
 
+<<<<<<< HEAD
 ### **🔮 Khả năng mở rộng:**
 
 **Tính năng có thể bổ sung:**
@@ -1075,6 +1072,8 @@ public function getOrderTimeline()
 </tr>
 </table>
 
+=======
+>>>>>>> c4aa60881db02cec1a9e5df90e5aace3d07e9e6f
 ## 📞 **THÔNG TIN LIÊN HỆ & HỖ TRỢ**
 
 ### **👤 Thông tin Developer:**
