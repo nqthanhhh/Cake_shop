@@ -992,7 +992,7 @@ public function getOrderTimeline()
 ## 📞 **CONTACT & SUPPORT**
 
 <div align="center">
-  <img src="screenshots/contact-page.png" alt="Contact Page" width="800">
+  <img src="screenshots/contact.png" alt="Contact" width="800">
   <p><em>Liên hệ với form gửi tin nhắn</em></p>
 </div>
 
