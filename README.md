@@ -468,7 +468,90 @@ public function login(Request $request) {
     return back()->with('error', 'Sai thông tin đăng nhập admin!');
 }
 ```
+---
 
+## ⚙️ **CÀI ĐẶT VÀ CHẠY DỰ ÁN**
+Add commentMore actions
+### **Yêu cầu hệ thống:**
+
+-   PHP >= 8.2
+-   Composer
+-   Node.js & NPM
+-   MySQL >= 8.0
+-   Git
+
+### **Các bước cài đặt:**
+
+**1. Clone repository:**
+
+```bash
+git clone https://github.com/nqthanhhh/Cake_shop.git
+cd Cake_Shop
+```
+
+**2. Cài đặt dependencies:**
+
+```bash
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+```
+
+**3. Cấu hình environment:**
+
+```bash
+# Copy file environment
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+```
+
+**4. Cấu hình database:**
+
+```env
+# Chỉnh sửa .env file
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cake_shop
+DB_USERNAME=root
+DB_PASSWORD=your_password
+```
+
+**5. Migration và Seeding:**
+
+```bash
+# Tạo database structure
+php artisan migrate
+
+# Seed dữ liệu mẫu
+php artisan db:seed
+```
+
+**6. Build frontend assets:**
+
+```bash
+# Development
+npm run dev
+
+# Production
+npm run build
+```
+
+**7. Chạy server:**
+
+```bash
+# Start development server
+php artisan serve
+
+# Application sẽ chạy tại: http://localhost:8000
+```
+
+---
+Add comment
 ---
 
 ## 🔗 **API ROUTES**
